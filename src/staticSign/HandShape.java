@@ -16,6 +16,7 @@ import com.leapmotion.leap.Vector;
 public class HandShape implements Serializable{
 	public static final int LEFT = 0;
 	public static final int RIGHT = 1;
+	public String name = "";
 	public HandShapeData data = new HandShapeData();
 	/**
 	 * Constructs a hand shape from the Hand object
@@ -125,5 +126,10 @@ public class HandShape implements Serializable{
 			distance += stdPos1[0].minus(stdPos2[0]).magnitude();
 		}
 		return distance;
+	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return name;
 	}
 }
