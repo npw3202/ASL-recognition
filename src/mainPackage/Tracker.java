@@ -1,13 +1,53 @@
 package mainPackage;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import staticSign.HandShape;
+import staticSign.HandShapeData;
 
 import com.leapmotion.leap.*;
 
 public class Tracker extends Listener {
+	HandShape hs;
+	HandShape a;
+	HandShape b;
+	HandShape c;
+	HandShape father;
+	public Tracker(){
+		try {
+			ObjectInputStream input;
+			FileInputStream fin = new FileInputStream("Signs/a");
+			input = new ObjectInputStream(fin);
+			a = new HandShape((HandShapeData) input.readObject());
+			fin.close();
+			input.close();
+			fin = new FileInputStream("Signs/b");
+			input = new ObjectInputStream(fin);
+			b = new HandShape((HandShapeData) input.readObject());
+			fin.close();
+			input.close();
+			fin = new FileInputStream("Signs/c");
+			input = new ObjectInputStream(fin);
+			c = new HandShape((HandShapeData) input.readObject());
+			fin.close();
+			input.close();
+			fin = new FileInputStream("Signs/FATHER");
+			input = new ObjectInputStream(fin);
+			father = new HandShape((HandShapeData) input.readObject());
+			fin.close();
+			input.close();
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void onInit(Controller controller) {
         System.out.println("Initialized");
     }
-
+	
     public void onConnect(Controller controller) {
         System.out.println("Connected");
         controller.enableGesture(Gesture.Type.TYPE_SWIPE);
@@ -39,7 +79,18 @@ public class Tracker extends Listener {
 		//uses the hand to create a new handshape
 		for (int i = 0; i < hands.length; i++) {
 			HandShape hs = new HandShape(hands[i]);
-			System.out.println(hs);
+		}
+		hs = new HandShape(hands[0]);
+		if(hs.distance(a) > hs.distance(b) && hs.distance(father) > hs.distance(b)){
+			System.out.println("B");
+		}else if(hs.distance(a) > hs.distance(father)){
+			System.out.println("father");
+		}else{
+			System.out.println("A");
 		}
 	}
+	public HandShape getHand(){
+		return hs;
+	}
+	
 }

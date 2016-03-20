@@ -1,6 +1,9 @@
 package staticSign;
 
+import java.io.Serializable;
+
 import mainPackage.Stats;
+import staticSign.HandShapeData;
 
 import com.leapmotion.leap.Frame;
 import com.leapmotion.leap.Hand;
@@ -10,83 +13,27 @@ import com.leapmotion.leap.Vector;
  * @author Nicholas
  *
  */
-public class HandShape {
+public class HandShape implements Serializable{
 	public static final int LEFT = 0;
-	public static final int RIGHT = 0;
-	private int handSide;
-	private Vector fingerPositions[];
-	private Vector palmLocation;
-
-	/**
-	 * Creates an empty hand shape
-	 */
-	public HandShape() {
-
-	}
-
-	/**
-	 * Gets the handSide
-	 * @return the handSide
-	 */
-	public int getHandSide() {
-		return handSide;
-	}
-
-	/**
-	 * sets the HandSide
-	 * @param handSide the handSide to set
-	 */
-	public void setHandSide(int handSide) {
-		this.handSide = handSide;
-	}
-
-	/**
-	 * gets the fingerPositions
-	 * @return the fingerPositions
-	 */
-	public Vector[] getFingerPosition() {
-		return fingerPositions;
-	}
-
-	/**
-	 * sets the fingerPositions
-	 * @param fingerPositions the fingerPositions to set
-	 */
-	public void setFingerPosition(Vector[] fingerPositions) {
-		this.fingerPositions = fingerPositions;
-	}
-
-	/**
-	 * Gets the palmLocation
-	 * @return the palmLocation
-	 */
-	public Vector getPalmLocation() {
-		return palmLocation;
-	}
-
-	/**
-	 * sets the palmLocation
-	 * @param palmLocation the palmLocation to set
-	 */
-	public void setPalmLocation(Vector palmLocation) {
-		this.palmLocation = palmLocation;
-	}
-
+	public static final int RIGHT = 1;
+	public HandShapeData data = new HandShapeData();
 	/**
 	 * Constructs a hand shape from the Hand object
 	 * @param hand the hand to construct the hand shape from
 	 */
 	public HandShape(Hand hand) {
 		if (hand.isLeft()) {
-			this.handSide = LEFT;
+			this.data.handSide = LEFT;
 		} else {
-			this.handSide = RIGHT;
+			this.data.handSide = RIGHT;
 		}
-		this.fingerPositions = new Vector[hand.fingers().count()];
-		for(int i = 0; i < fingerPositions.length; i++){
-			fingerPositions[i] = hand.fingers().get(i).tipPosition();
+		this.data.fingerPositions = new Vector[hand.fingers().count()];
+		for(int i = 0; i < data.fingerPositions.length; i++){
+			data.fingerPositions[i] = hand.fingers().get(i).tipPosition();
 		}
-		this.palmLocation = hand.palmPosition();
+		this.data.palmLocation = hand.palmPosition();
+		//this.data.handBasis = hand.basis();
+		this.data.palmDirection = hand.palmNormal();
 	}
 
 	/**
@@ -96,9 +43,17 @@ public class HandShape {
 	 * @param palmLocation the position of the palm
 	 */
 	public HandShape(int handSide, Vector fingerPosition[], Vector palmLocation) {
-		this.handSide = handSide;
-		this.fingerPositions = fingerPosition;
-		this.palmLocation = palmLocation;
+		this.data.handSide = handSide;
+		this.data.fingerPositions = fingerPosition;
+		this.data.palmLocation = palmLocation;
+	}
+
+	/**
+	 * Creates the HandShape based on the data provided
+	 * @param readObject the hand shape
+	 */
+	public HandShape(HandShapeData readObject) {
+		this.data = readObject;
 	}
 
 	/**
@@ -121,7 +76,6 @@ public class HandShape {
 		float yStdDev = Stats.getStdDev(yArr, yMean);
 		float zMean = Stats.getMean(zArr);
 		float zStdDev = Stats.getStdDev(zArr, zMean);
-		System.out.println(xMean);
 		for (int i = 0; i < xArr.length; i++) {
 			xArr[i] = (xArr[i] - xMean) / xStdDev;
 		}
@@ -143,7 +97,7 @@ public class HandShape {
 	 * @return the standardized coordinates of the fingers
 	 */
 	public Vector[] getStandardizedPos() {
-		return standardizeVectors(fingerPositions);
+		return standardizeVectors(data.fingerPositions);
 	}
 
 	/**
@@ -151,10 +105,25 @@ public class HandShape {
 	 * @return the position of the fingers relative to the palm
 	 */
 	public Vector[] getRelPos() {
-		Vector relPos[] = new Vector[fingerPositions.length];
+		Vector relPos[] = new Vector[data.fingerPositions.length];
 		for (int i = 0; i < relPos.length; i++) {
-			relPos[i] = fingerPositions[i].minus(palmLocation);
+			relPos[i] = data.fingerPositions[i].minus(data.palmLocation);
 		}
 		return relPos;
+	}
+	
+	/**
+	 * Finds the distance between two hand shapes
+	 * @param shape the hand shape to compare this hand shape to
+	 * @return the distance
+	 */
+	public float distance(HandShape shape){
+		Vector[] stdPos1 = getStandardizedPos();
+		Vector[] stdPos2 = shape.getStandardizedPos();
+		float distance = 0;
+		for(int i = 0; i < stdPos1.length && i < stdPos2.length; i++){
+			distance += stdPos1[0].minus(stdPos2[0]).magnitude();
+		}
+		return distance;
 	}
 }
