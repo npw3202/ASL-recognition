@@ -34,11 +34,12 @@ public class Tracker extends Listener {
 			c = new HandShape((HandShapeData) input.readObject());
 			fin.close();
 			input.close();
-			fin = new FileInputStream("Signs/FATHER");
-			input = new ObjectInputStream(fin);
-			father = new HandShape((HandShapeData) input.readObject());
-			fin.close();
-			input.close();
+
+			//fin = new FileInputStream("Signs/FATHER");
+			//input = new ObjectInputStream(fin);
+			//father = new HandShape((HandShapeData) input.readObject());
+			//fin.close();
+			//input.close();
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,8 +84,8 @@ public class Tracker extends Listener {
 		hs = new HandShape(hands[0]);
 		if(hs.distance(a) > hs.distance(b) && hs.distance(father) > hs.distance(b)){
 			System.out.println("B");
-		}else if(hs.distance(a) > hs.distance(father)){
-			System.out.println("father");
+		}else if(hs.distance(a) > hs.distance(c)){
+			System.out.println("C");
 		}else{
 			System.out.println("A");
 		}
