@@ -17,13 +17,16 @@ import javax.swing.*;
 import staticSign.HandShape;
 import staticSign.HandShapeData;
 import mainPackage.Tracker;
+import mainPackage.TrackerListener;
 
 import com.leapmotion.leap.Controller;
 import com.leapmotion.leap.Frame;
 import com.leapmotion.leap.Hand;
 import com.leapmotion.leap.HandList;
 
-public class SaveHandShape extends JFrame {
+import dynamicSign.HandGesture;
+
+public class SaveSign extends JFrame implements TrackerListener{
 	//the main JPanel
 	JPanel jp;
 	//the text field containing the file name
@@ -31,59 +34,77 @@ public class SaveHandShape extends JFrame {
 	//the listener for the leap
 	Tracker track = new Tracker();
 	//the listener for the button
+	boolean recording = false;
+	JButton addSign;
+	HandGesture hg = new HandGesture();
 	ActionListener al = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// open up a new text file
 			String name = fileName.getText();
-			try {
-				HandShape hs = track.getHand();
-				if(hs == null){
-					JOptionPane.showMessageDialog(SaveHandShape.this,
-						    "Error",
-						    "There are no hands showing",
-						    JOptionPane.ERROR_MESSAGE);
-					return;
+			if(!recording){
+				recording = true;
+				addSign.setText("Stop Recording");
+			}else{
+				try {
+					recording = false;
+					addSign.setText("Start recording");
+					if(hg.data.handList.size() == 0){
+						JOptionPane.showMessageDialog(SaveSign.this,
+							    "Error",
+							    "There were no hands showing",
+							    JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					FileOutputStream fout = new FileOutputStream("Signs/DynamicSign/" + name);
+					ObjectOutputStream oos = new ObjectOutputStream(fout);
+					//assuming the hand of interest is the first hand in the array
+					oos.writeObject(hg.data);
+					oos.close();
+					fout.close();
+				} catch (FileNotFoundException | UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					System.exit(0);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-				FileOutputStream fout = new FileOutputStream("Signs/HandShape/" + name);
-				ObjectOutputStream oos = new ObjectOutputStream(fout);
-				//assuming the hand of interest is the first hand in the array
-				oos.writeObject(hs.data);
-				oos.close();
-				fout.close();
-			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-				System.exit(0);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
 		}
 	};
 
-	public SaveHandShape(Controller control) {
+	
+	public SaveSign(Controller control) {
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		control.addListener(track);
+		track.addListener(this);
 		jp = new JPanel(new FlowLayout());
 		fileName = new JTextField();
 		fileName.setColumns(10);
 		jp.add(fileName);
-		JButton addSign = new JButton("Add Sign");
+		addSign = new JButton("Start recording");
 		addSign.addActionListener(al);
 		jp.add(addSign);
 		add(jp);
 		this.setSize(100, 100);
 		this.setVisible(true);
 	}
-
 	public static void main(String[] args) {
 		Controller controller = new Controller();
-		SaveHandShape save = new SaveHandShape(controller);
+		SaveSign save = new SaveSign(controller);
 		try {
             System.in.read();
         } catch (IOException e) {
             e.printStackTrace();
         }
+	}
+	@Override
+	public void onUpdate(HandShape hs) {
+		if(recording){
+			hg.addHand(hs);
+			System.out.println(hg.data.handList.size());
+		}
 	}
 }

@@ -1,5 +1,8 @@
 package staticSign;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import mainPackage.Stats;
@@ -36,7 +39,7 @@ public class HandShape implements Serializable{
 		//this.data.handBasis = hand.basis();
 		this.data.palmDirection = hand.palmNormal();
 	}
-
+	
 	/**
 	 * Constructs the hand shape from the given parameters
 	 * @param handSide which hand (left or right)
@@ -112,6 +115,13 @@ public class HandShape implements Serializable{
 		}
 		return relPos;
 	}
+	/**
+	 * Gets the position of the fingers
+	 * @return the position of the fingers
+	 */
+	public Vector[] getPos() {
+		return data.fingerPositions;
+	}
 	
 	/**
 	 * Finds the distance between two hand shapes
@@ -132,4 +142,11 @@ public class HandShape implements Serializable{
 		// TODO Auto-generated method stub
 		return name;
 	}
+	private void writeObject(ObjectOutputStream out) throws IOException {
+        out.writeObject(data);
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        this.data = (HandShapeData) in.readObject();
+    }
 }

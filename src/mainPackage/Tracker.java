@@ -4,6 +4,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.EventListener;
+import java.util.LinkedList;
+import java.util.Observable;
+import java.util.Observer;
+
+import javax.swing.plaf.basic.BasicSliderUI.TrackListener;
 
 import staticSign.HandShape;
 import staticSign.HandShapeData;
@@ -11,11 +17,17 @@ import staticSign.HandShapeSensor;
 
 import com.leapmotion.leap.*;
 
+import dynamicSign.HandGesture;
+import dynamicSign.HandGestureSensor;
+
 public class Tracker extends Listener {
 	HandShapeSensor hss;
 	HandShape hs;
+	HandGesture hg;
+	LinkedList<TrackerListener> listeners = new LinkedList<TrackerListener>();
 	public Tracker(){
 		hss = new HandShapeSensor();
+		hg = new HandGesture();
 	}
 	public void onInit(Controller controller) {
         System.out.println("Initialized");
@@ -50,13 +62,29 @@ public class Tracker extends Listener {
 			}
 		}
 		//uses the hand to create a new handshape
+		//System.out.println(hands.length);
 		hs = new HandShape(hands[0]);
-		System.out.println(hss.getHandShape(hs));
+		hg.addHand(hs);
+		hg.parseToCurves();
+		String str = hg.toString();
+		HandGestureSensor hgs = new HandGestureSensor();
+		
+		System.out.println(hgs.getHandGesture(hg).name);
 
+		//System.out.println(str);
+		update(hs);
 	}
 	public HandShape getHand() {
 		// TODO Auto-generated method stub
 		return hs;
+	}
+	public void addListener(TrackerListener o){
+		listeners.add(o);
+	}
+	public void update(HandShape hs){
+		for(TrackerListener o : listeners){
+			o.onUpdate(hs);
+		}
 	}
 	
 }

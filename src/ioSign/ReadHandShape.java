@@ -10,7 +10,7 @@ import staticSign.HandShapeData;
 public class ReadHandShape {
 	public static HandShape readSign(String fileName) throws IOException, ClassNotFoundException{
 		ObjectInputStream input;
-		FileInputStream fin = new FileInputStream("Signs/"+fileName);
+		FileInputStream fin = new FileInputStream("Signs/HandShape/"+fileName);
 		input = new ObjectInputStream(fin);
 		HandShape toReturn = new HandShape((HandShapeData) input.readObject());
 		toReturn.name = fileName;

@@ -1,21 +1,24 @@
-package staticSign;
+package dynamicSign;
 
 import ioSign.ReadHandShape;
+import ioSign.ReadSign;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class HandShapeSensor {
-	LinkedList<HandShape> handShapes = new LinkedList<HandShape>();
-	public HandShapeSensor() {
-		File folder = new File("Signs/HandShape");
+import staticSign.HandShape;
+
+public class HandGestureSensor {
+	LinkedList<HandGesture> handGestures = new LinkedList<HandGesture>();
+	public HandGestureSensor() {
+		File folder = new File("Signs/DynamicSign");
 		File[] listOfFiles = folder.listFiles();
 
 	    for (int i = 0; i < listOfFiles.length; i++) {
 	      if (listOfFiles[i].isFile()) {
 	        try {
-				handShapes.add(ReadHandShape.readSign(listOfFiles[i].getName()));
+				handGestures.add(ReadSign.readSign(listOfFiles[i].getName()));
 			} catch (ClassNotFoundException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -25,11 +28,11 @@ public class HandShapeSensor {
 	    }
 	}
 
-	public HandShape getHandShape(HandShape hs) {
+	public HandGesture getHandGesture(HandGesture hs) {
 
 		LinkedList<Float> score = new LinkedList<Float>();
-		for(int i = 0; i < handShapes.size(); i++){		
-			score.add(hs.distance(handShapes.get(i)));
+		for(int i = 0; i < handGestures.size(); i++){		
+			score.add(hs.distance(handGestures.get(i)));
 		}
 
 		int minIndex = 0;
@@ -40,6 +43,6 @@ public class HandShapeSensor {
 				minIndex = i;
 			}
 		}
-		return handShapes.get(minIndex);
+		return handGestures.get(minIndex);
 	}
 }
