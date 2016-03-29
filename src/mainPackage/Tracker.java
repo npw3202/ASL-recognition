@@ -63,16 +63,16 @@ public class Tracker extends Listener {
 		}
 		//uses the hand to create a new handshape
 		//System.out.println(hands.length);
-		hs = new HandShape(hands[0]);
-		hg.addHand(hs);
-		hg.parseToCurves();
-		String str = hg.toString();
-		HandGestureSensor hgs = new HandGestureSensor();
-		
-		System.out.println(hgs.getHandGesture(hg).name);
-
-		//System.out.println(str);
-		update(hs);
+		if(hands.length>0){
+			hs = new HandShape(hands[0]);
+			hg.addHand(hs);
+			hg.parseToCurves();
+			String str = hg.toString();
+			HandGestureSensor hgs = new HandGestureSensor();
+			System.out.println(hgs.getHandGesture(hg).name);
+			System.out.println(hss.getHandShape(hs));
+			update(hs);
+		}
 	}
 	public HandShape getHand() {
 		// TODO Auto-generated method stub

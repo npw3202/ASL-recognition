@@ -53,11 +53,9 @@ public class SaveHandShape extends JFrame {
 				oos.close();
 				fout.close();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				System.exit(0);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}

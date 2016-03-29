@@ -28,13 +28,13 @@ public class HandGestureSensor {
 	    }
 	}
 
-	public HandGesture getHandGesture(HandGesture hs) {
+	public HandGesture getHandGesture(HandGesture hg) {
+
 
 		LinkedList<Float> score = new LinkedList<Float>();
 		for(int i = 0; i < handGestures.size(); i++){		
-			score.add(hs.distance(handGestures.get(i)));
+			score.add(hg.distance(handGestures.get(i)));
 		}
-
 		int minIndex = 0;
 		//use linear search
 		for(int i = 1; i < score.size(); i++){
@@ -42,6 +42,10 @@ public class HandGestureSensor {
 				//if the distance is smaller
 				minIndex = i;
 			}
+		}
+		System.out.println(score.get(minIndex));
+		if(score.get(minIndex)<10){
+			hg.clear();
 		}
 		return handGestures.get(minIndex);
 	}
