@@ -32,7 +32,7 @@ public class SaveSign extends JFrame implements TrackerListener{
 	//the text field containing the file name
 	JTextField fileName;
 	//the listener for the leap
-	Tracker track = new Tracker();
+	Tracker track;
 	//the listener for the button
 	boolean recording = false;
 	JButton addSign;
@@ -76,6 +76,7 @@ public class SaveSign extends JFrame implements TrackerListener{
 
 	
 	public SaveSign(Controller control) {
+		track = new Tracker(control);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		control.addListener(track);
 		track.addListener(this);

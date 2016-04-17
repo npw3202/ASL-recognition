@@ -1,16 +1,15 @@
 package mainPackage;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.EventListener;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.plaf.basic.BasicSliderUI.TrackListener;
 
+import imaging.Imager;
 import staticSign.HandShape;
 import staticSign.HandShapeData;
 import staticSign.HandShapeSensor;
@@ -25,9 +24,16 @@ public class Tracker extends Listener {
 	HandShape hs;
 	HandGesture hg;
 	LinkedList<TrackerListener> listeners = new LinkedList<TrackerListener>();
-	public Tracker(){
+	Imager im;
+
+	public Tracker(Controller c){
 		hss = new HandShapeSensor();
 		hg = new HandGesture();
+		im = new Imager(c);
+		c.addListener(this);
+		c.addListener(im);
+		c.setPolicy(Controller.PolicyFlag.POLICY_IMAGES);
+
 	}
 	public void onInit(Controller controller) {
         System.out.println("Initialized");

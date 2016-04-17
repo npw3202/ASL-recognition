@@ -29,7 +29,7 @@ public class SaveHandShape extends JFrame {
 	//the text field containing the file name
 	JTextField fileName;
 	//the listener for the leap
-	Tracker track = new Tracker();
+	Tracker track;
 	//the listener for the button
 	ActionListener al = new ActionListener() {
 
@@ -62,6 +62,7 @@ public class SaveHandShape extends JFrame {
 	};
 
 	public SaveHandShape(Controller control) {
+		track = new Tracker(control);
 		control.addListener(track);
 		jp = new JPanel(new FlowLayout());
 		fileName = new JTextField();

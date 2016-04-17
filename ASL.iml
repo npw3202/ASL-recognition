@@ -25,6 +25,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="LeapJava" level="project" />
+    <orderEntry type="library" exported="" name="LeapJava" level="project" />
   </component>
 </module>

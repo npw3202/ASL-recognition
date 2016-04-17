@@ -14,7 +14,8 @@ public class ReadSign {
 		ObjectInputStream input;
 		FileInputStream fin = new FileInputStream("Signs/DynamicSign/"+fileName);
 		input = new ObjectInputStream(fin);
-		HandGesture toReturn = new HandGesture((HandGestureData) input.readObject());
+		HandGestureData hgd = (HandGestureData) input.readObject();
+		HandGesture toReturn = new HandGesture(hgd);
 		toReturn.name = fileName;
 		fin.close();
 		input.close();

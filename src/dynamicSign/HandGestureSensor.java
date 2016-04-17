@@ -29,8 +29,6 @@ public class HandGestureSensor {
 	}
 
 	public HandGesture getHandGesture(HandGesture hg) {
-
-
 		LinkedList<Float> score = new LinkedList<Float>();
 		for(int i = 0; i < handGestures.size(); i++){		
 			score.add(hg.distance(handGestures.get(i)));
