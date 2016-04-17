@@ -1,7 +1,8 @@
 package mainPackage;
-import java.io.IOException;
 
 import com.leapmotion.leap.Controller;
+
+import java.io.IOException;
 
 class main {
     public static void main(String[] args) {

@@ -124,7 +124,7 @@ public class HandGesture {
 			distance += c1[i].distance(c2[i]);
 		}
 		
-		System.out.println(c2.length);
+		//System.out.println(c2.length);
 		return (float) (distance/Math.pow(c1[0].func.size(),1));
 	}
 	public float smartDistance(HandGesture hg2){
@@ -161,3 +161,4 @@ public class HandGesture {
 		return s;
 	}
 }
+	

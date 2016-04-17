@@ -64,13 +64,14 @@ public class Tracker extends Listener {
 		//uses the hand to create a new handshape
 		//System.out.println(hands.length);
 		if(hands.length>0){
+			//System.out.println("fps: "+frame.currentFramesPerSecond());
 			hs = new HandShape(hands[0]);
 			hg.addHand(hs);
 			hg.parseToCurves();
 			String str = hg.toString();
 			HandGestureSensor hgs = new HandGestureSensor();
-			System.out.println(hgs.getHandGesture(hg).name);
-			System.out.println(hss.getHandShape(hs));
+			System.out.println("Sign: " + hgs.getHandGesture(hg).name);
+			System.out.println("Hand Shape: " + hss.getHandShape(hs));
 			update(hs);
 		}
 	}

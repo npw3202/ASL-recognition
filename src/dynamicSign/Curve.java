@@ -64,7 +64,7 @@ public class Curve {
 	LinkedList<Point> func = new LinkedList<Point>();
 
 	/**
-	 * Ads a point to the curve
+	 * Ads a point to t    vv he curve
 	 * 
 	 * @param x
 	 *            the x coordinate of the point to add

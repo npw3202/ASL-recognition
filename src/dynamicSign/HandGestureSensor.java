@@ -43,7 +43,7 @@ public class HandGestureSensor {
 				minIndex = i;
 			}
 		}
-		System.out.println(score.get(minIndex));
+		//System.out.println(score.get(minIndex));
 		if(score.get(minIndex)<10){
 			hg.clear();
 		}

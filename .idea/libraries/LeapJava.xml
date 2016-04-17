@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="LeapJava">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Documents/Leap_Motion_SDK_Windows_2.3.1/LeapDeveloperKit_2.3.1+31549_win/LeapSDK/lib/LeapJava.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -39,7 +39,6 @@ public class SaveSign extends JFrame implements TrackerListener{
 	HandGesture hg = new HandGesture();
 	ActionListener al = new ActionListener() {
 
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			// open up a new text file
 			String name = fileName.getText();
