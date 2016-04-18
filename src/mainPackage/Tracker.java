@@ -1,35 +1,25 @@
 package mainPackage;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.util.EventListener;
-import java.util.LinkedList;
-import java.util.Observable;
-import java.util.Observer;
-
-import javax.imageio.ImageIO;
-import javax.swing.plaf.basic.BasicSliderUI.TrackListener;
-
-import imaging.Imager;
-import staticSign.HandShape;
-import staticSign.HandShapeData;
-import staticSign.HandShapeSensor;
 
 import com.leapmotion.leap.*;
-
 import dynamicSign.HandGesture;
 import dynamicSign.HandGestureSensor;
+import imaging.imager;
+import staticSign.HandShape;
+import staticSign.HandShapeSensor;
+
+import java.util.LinkedList;
 
 public class Tracker extends Listener {
 	HandShapeSensor hss;
 	HandShape hs;
 	HandGesture hg;
 	LinkedList<TrackerListener> listeners = new LinkedList<TrackerListener>();
-	Imager im;
+	imager im;
 
 	public Tracker(Controller c){
 		hss = new HandShapeSensor();
 		hg = new HandGesture();
-		im = new Imager(c);
+		im = new imager(c);
 		c.addListener(this);
 		c.addListener(im);
 		c.setPolicy(Controller.PolicyFlag.POLICY_IMAGES);
