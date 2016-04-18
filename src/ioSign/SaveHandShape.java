@@ -62,7 +62,7 @@ public class SaveHandShape extends JFrame {
 	};
 
 	public SaveHandShape(Controller control) {
-		track = new Tracker(control);
+		track = new Tracker();
 		control.addListener(track);
 		jp = new JPanel(new FlowLayout());
 		fileName = new JTextField();
