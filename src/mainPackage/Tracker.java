@@ -1,29 +1,33 @@
 package mainPackage;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.EventListener;
+import java.util.LinkedList;
+import java.util.Observable;
+import java.util.Observer;
 
-import com.leapmotion.leap.*;
-import dynamicSign.HandGesture;
-import dynamicSign.HandGestureSensor;
-import imaging.Imager;
+import javax.swing.plaf.basic.BasicSliderUI.TrackListener;
+
 import staticSign.HandShape;
+import staticSign.HandShapeData;
 import staticSign.HandShapeSensor;
 
-import java.util.LinkedList;
+import com.leapmotion.leap.*;
+
+import dynamicSign.HandGesture;
+import dynamicSign.HandGestureSensor;
 
 public class Tracker extends Listener {
 	HandShapeSensor hss;
 	HandShape hs;
 	HandGesture hg;
 	LinkedList<TrackerListener> listeners = new LinkedList<TrackerListener>();
-	Imager im;
-
-	public Tracker(Controller c){
+	public Tracker(){
 		hss = new HandShapeSensor();
 		hg = new HandGesture();
-		im = new Imager(c);
-		c.addListener(this);
-		c.addListener(im);
-		c.setPolicy(Controller.PolicyFlag.POLICY_IMAGES);
-
 	}
 	public void onInit(Controller controller) {
         System.out.println("Initialized");
