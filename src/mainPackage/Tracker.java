@@ -24,6 +24,9 @@ public class Tracker extends Listener {
 	HandShapeSensor hss;
 	HandShape hs;
 	HandGesture hg;
+	HandGesture currentGesture = null;
+	HandShape currentShape = null;
+
 	LinkedList<TrackerListener> listeners = new LinkedList<TrackerListener>();
 	public Tracker(){
 		hss = new HandShapeSensor();
