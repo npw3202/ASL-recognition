@@ -3,7 +3,7 @@ package mainPackage;
 import com.leapmotion.leap.*;
 import dynamicSign.HandGesture;
 import dynamicSign.HandGestureSensor;
-import imaging.imager;
+import imaging.Imager;
 import staticSign.HandShape;
 import staticSign.HandShapeSensor;
 
@@ -14,12 +14,12 @@ public class Tracker extends Listener {
 	HandShape hs;
 	HandGesture hg;
 	LinkedList<TrackerListener> listeners = new LinkedList<TrackerListener>();
-	imager im;
+	Imager im;
 
 	public Tracker(Controller c){
 		hss = new HandShapeSensor();
 		hg = new HandGesture();
-		im = new imager(c);
+		im = new Imager(c);
 		c.addListener(this);
 		c.addListener(im);
 		c.setPolicy(Controller.PolicyFlag.POLICY_IMAGES);
