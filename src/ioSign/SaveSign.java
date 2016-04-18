@@ -1,30 +1,16 @@
 package ioSign;
 
-import java.awt.CardLayout;
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-
-import javax.swing.*;
-
-import staticSign.HandShape;
-import staticSign.HandShapeData;
+import com.leapmotion.leap.Controller;
+import dynamicSign.HandGesture;
 import mainPackage.Tracker;
 import mainPackage.TrackerListener;
+import staticSign.HandShape;
 
-import com.leapmotion.leap.Controller;
-import com.leapmotion.leap.Frame;
-import com.leapmotion.leap.Hand;
-import com.leapmotion.leap.HandList;
-
-import dynamicSign.HandGesture;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
 
 public class SaveSign extends JFrame implements TrackerListener{
 	//the main JPanel
@@ -76,7 +62,7 @@ public class SaveSign extends JFrame implements TrackerListener{
 
 	
 	public SaveSign(Controller control) {
-		track = new Tracker(control);
+		track = new Tracker();
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		control.addListener(track);
 		track.addListener(this);
