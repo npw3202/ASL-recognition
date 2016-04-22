@@ -61,6 +61,11 @@ public class SaveSign extends JFrame implements TrackerListener{
 	};
 
 	
+
+	/**
+	 * Constructs the Save Sign dialog
+//	 * @param control the controller (from the leap)
+	 */
 	public SaveSign(Controller control) {
 		track = new Tracker();
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

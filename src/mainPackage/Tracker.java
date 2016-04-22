@@ -16,6 +16,9 @@ public class Tracker extends com.leapmotion.leap.Listener {
 	HandShape currentShape = null;
 
 	LinkedList<TrackerListener> listeners = new LinkedList<TrackerListener>();
+	/**
+	 * Constructs the tracker
+	 */
 	public Tracker(){
 		hss = new HandShapeSensor();
 		hg = new HandGesture();
@@ -67,13 +70,24 @@ public class Tracker extends com.leapmotion.leap.Listener {
 			update(hs);
 		}
 	}
+	/**
+	 * Gets the last hand shape
+	 * @return the last hand shape
+	 */
 	public HandShape getHand() {
-		// TODO Auto-generated method stub
 		return hs;
 	}
+	/**
+	 * Add a listener
+	 * @param o the listener
+	 */
 	public void addListener(TrackerListener o){
 		listeners.add(o);
 	}
+	/**
+	 * Notifies the listeners of a new hand shape
+	 * @param hs
+	 */
 	public void update(HandShape hs){
 		for(TrackerListener o : listeners){
 			o.onUpdate(hs);

@@ -61,6 +61,10 @@ public class SaveHandShape extends JFrame {
 		}
 	};
 
+	/**
+	 * Constructs a hand shape save dialog
+	 * @param control the controller (from the leap)
+	 */
 	public SaveHandShape(Controller control) {
 		track = new Tracker();
 		control.addListener(track);

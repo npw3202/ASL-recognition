@@ -9,9 +9,15 @@ import com.leapmotion.leap.Matrix;
 import com.leapmotion.leap.Vector;
 
 public class HandShapeData implements Serializable{
+	public static final int LEFT = 0;
+	public static final int RIGHT = 1;
+	//the side of the hand
 	public int handSide;
+	//the position of the finger tips
 	public transient Vector fingerPositions[];
+	//the location of the palm
 	public transient Vector palmLocation;
+	//the direction of the palm (the normal)
 	public transient Vector palmDirection;
 	private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
