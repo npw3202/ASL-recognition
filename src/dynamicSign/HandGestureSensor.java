@@ -9,14 +9,6 @@ import java.util.LinkedList;
 
 import staticSign.HandShape;
 
-/**
- * @author Nicholas
- *
- */
-/**
- * @author Nicholas
- *
- */
 public class HandGestureSensor {
 	LinkedList<HandGesture> handGestures = new LinkedList<HandGesture>();
 	public HandGestureSensor() {
@@ -36,11 +28,6 @@ public class HandGestureSensor {
 	    }
 	}
 
-	/**
-	 * Gets the hand gesture closest to the specified gesture
-	 * @param hg the hand gesture to search for
-	 * @return the closest hand gesture
-	 */
 	public HandGesture getHandGesture(HandGesture hg) {
 		LinkedList<Float> score = new LinkedList<Float>();
 		for(int i = 0; i < handGestures.size(); i++){		

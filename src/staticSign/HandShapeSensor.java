@@ -6,17 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
-/**
- * Determines what hand shape a user is doing
- * @author Nicholas
- *
- */
 public class HandShapeSensor {
 	LinkedList<HandShape> handShapes = new LinkedList<HandShape>();
-	
-	/**
-	 * The constructor, automatically searches for all hand shapes
-	 */
 	public HandShapeSensor() {
 		File folder = new File("Signs/HandShape");
 		File[] listOfFiles = folder.listFiles();
@@ -34,11 +25,6 @@ public class HandShapeSensor {
 	    }
 	}
 
-	/**
-	 * Gets the hand shape closest to the specified hand shape
-	 * @param hs the hand shape to search for
-	 * @return the hand shape closest
-	 */
 	public HandShape getHandShape(HandShape hs) {
 
 		LinkedList<Float> score = new LinkedList<Float>();
