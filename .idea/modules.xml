@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ASL.iml" filepath="$PROJECT_DIR$/ASL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ASL-recognition/ASL-recognition.iml" filepath="$PROJECT_DIR$/ASL-recognition/ASL-recognition.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ASL-recognition1.iml" filepath="$PROJECT_DIR$/ASL-recognition1.iml" />
     </modules>
   </component>
 </project>
