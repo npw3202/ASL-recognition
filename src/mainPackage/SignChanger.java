@@ -1,10 +1,9 @@
 package mainPackage;
 
-import java.util.Observable;
-
 import dynamicSign.HandGesture;
-import dynamicSign.HandGestureSensor;
 import staticSign.HandShape;
+
+import java.util.Observable;
 
 public class SignChanger extends Observable implements TrackerListener {
 	public static final float EPSILON = 0.5f;
@@ -12,7 +11,6 @@ public class SignChanger extends Observable implements TrackerListener {
 	public static final int NUM_FRAME_BETWEEN = 50;
 	HandGesture last = new HandGesture();
 	int frameNum;
-
 	@Override
 	public void onUpdate(HandShape hs) {
 		// we must have at least PEEK_BACK_LENGTH frames so we can peek back

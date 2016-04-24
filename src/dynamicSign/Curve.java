@@ -1,7 +1,6 @@
 package dynamicSign;
 
 import java.util.LinkedList;
-
 /**
  * @author Nicholas Wilkins
  *

@@ -19,6 +19,7 @@ public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 	HandShape currentShape = null;
 	HandGesture lastGesture = null;
 	String sentence = "";
+    Differentiator dif = new Differentiator();
 	SignChanger signChanger = new SignChanger();
 	LinkedList<TrackerListener> listeners = new LinkedList<TrackerListener>();
 
@@ -28,6 +29,7 @@ public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 		Imager im = new Imager(new Controller());
 		signChanger.addObserver(this);
 		this.addListener(signChanger);
+        this.addListener(dif);
 	}
 
 	public void onInit(Controller controller) {

@@ -1,13 +1,11 @@
 package ioSign;
 
+import dynamicSign.HandGesture;
+import dynamicSign.HandGestureData;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-
-import dynamicSign.HandGesture;
-import dynamicSign.HandGestureData;
-import staticSign.HandShape;
-import staticSign.HandShapeData;
 
 public class ReadSign {
 	/**
