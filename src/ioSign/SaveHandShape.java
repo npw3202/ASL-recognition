@@ -24,13 +24,13 @@ import com.leapmotion.leap.Hand;
 import com.leapmotion.leap.HandList;
 
 public class SaveHandShape extends JFrame {
-	//the main JPanel
+	// the main JPanel
 	JPanel jp;
-	//the text field containing the file name
+	// the text field containing the file name
 	JTextField fileName;
-	//the listener for the leap
+	// the listener for the leap
 	Tracker track;
-	//the listener for the button
+	// the listener for the button
 	ActionListener al = new ActionListener() {
 
 		@Override
@@ -39,16 +39,14 @@ public class SaveHandShape extends JFrame {
 			String name = fileName.getText();
 			try {
 				HandShape hs = track.getHand();
-				if(hs == null){
-					JOptionPane.showMessageDialog(SaveHandShape.this,
-						    "Error",
-						    "There are no hands showing",
-						    JOptionPane.ERROR_MESSAGE);
+				if (hs == null) {
+					JOptionPane.showMessageDialog(SaveHandShape.this, "Error", "There are no hands showing",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				FileOutputStream fout = new FileOutputStream("Signs/HandShape/" + name);
 				ObjectOutputStream oos = new ObjectOutputStream(fout);
-				//assuming the hand of interest is the first hand in the array
+				// assuming the hand of interest is the first hand in the array
 				oos.writeObject(hs.data);
 				oos.close();
 				fout.close();
@@ -61,6 +59,12 @@ public class SaveHandShape extends JFrame {
 		}
 	};
 
+	/**
+	 * Creates a new sign saver
+	 * 
+	 * @param control
+	 *            the controller from the leap motion
+	 */
 	public SaveHandShape(Controller control) {
 		track = new Tracker();
 		control.addListener(track);
@@ -80,9 +84,9 @@ public class SaveHandShape extends JFrame {
 		Controller controller = new Controller();
 		SaveHandShape save = new SaveHandShape(controller);
 		try {
-            System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			System.in.read();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

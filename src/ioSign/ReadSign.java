@@ -10,9 +10,20 @@ import staticSign.HandShape;
 import staticSign.HandShapeData;
 
 public class ReadSign {
-	public static HandGesture readSign(String fileName) throws IOException, ClassNotFoundException{
+	/**
+	 * Reads a sign from the file
+	 * 
+	 * @param fileName
+	 *            the name of the sign/file
+	 * @return the hand gesture representing the sign
+	 * @throws IOException
+	 *             if a sign of the provided name is not found
+	 * @throws ClassNotFoundException
+	 *             if the sign is out of date
+	 */
+	public static HandGesture readSign(String fileName) throws IOException, ClassNotFoundException {
 		ObjectInputStream input;
-		FileInputStream fin = new FileInputStream("Signs/DynamicSign/"+fileName);
+		FileInputStream fin = new FileInputStream("Signs/DynamicSign/" + fileName);
 		input = new ObjectInputStream(fin);
 		HandGestureData hgd = (HandGestureData) input.readObject();
 		HandGesture toReturn = new HandGesture(hgd);

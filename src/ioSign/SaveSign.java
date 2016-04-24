@@ -12,39 +12,37 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
-public class SaveSign extends JFrame implements TrackerListener{
-	//the main JPanel
+public class SaveSign extends JFrame implements TrackerListener {
+	// the main JPanel
 	JPanel jp;
-	//the text field containing the file name
+	// the text field containing the file name
 	JTextField fileName;
-	//the listener for the leap
+	// the listener for the leap
 	Tracker track;
-	//the listener for the button
+	// the listener for the button
 	boolean recording = false;
 	JButton addSign;
 	HandGesture hg = new HandGesture();
 	ActionListener al = new ActionListener() {
-
 		public void actionPerformed(ActionEvent e) {
 			// open up a new text file
 			String name = fileName.getText();
-			if(!recording){
+			if (!recording) {
 				recording = true;
 				addSign.setText("Stop Recording");
-			}else{
+			} else {
 				try {
 					recording = false;
 					addSign.setText("Start recording");
-					if(hg.data.handList.size() == 0){
-						JOptionPane.showMessageDialog(SaveSign.this,
-							    "Error",
-							    "There were no hands showing",
-							    JOptionPane.ERROR_MESSAGE);
+					if (hg.data.handList.size() == 0) {
+						JOptionPane.showMessageDialog(SaveSign.this, "Error", "There were no hands showing",
+								JOptionPane.ERROR_MESSAGE);
 						return;
 					}
 					FileOutputStream fout = new FileOutputStream("Signs/DynamicSign/" + name);
 					ObjectOutputStream oos = new ObjectOutputStream(fout);
-					//assuming the hand of interest is the first hand in the array
+					// assuming the hand of interest is the first hand in the
+					// array
 					oos.writeObject(hg.data);
 					oos.close();
 					fout.close();
@@ -60,7 +58,12 @@ public class SaveSign extends JFrame implements TrackerListener{
 		}
 	};
 
-	
+	/**
+	 * Creates a new Sign Saver
+	 * 
+	 * @param control
+	 *            the controller from the leap
+	 */
 	public SaveSign(Controller control) {
 		track = new Tracker();
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -77,18 +80,20 @@ public class SaveSign extends JFrame implements TrackerListener{
 		this.setSize(100, 100);
 		this.setVisible(true);
 	}
+
 	public static void main(String[] args) {
 		Controller controller = new Controller();
 		SaveSign save = new SaveSign(controller);
 		try {
-            System.in.read();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+			System.in.read();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
+
 	@Override
 	public void onUpdate(HandShape hs) {
-		if(recording){
+		if (recording) {
 			hg.addHand(hs);
 			System.out.println(hg.data.handList.size());
 		}

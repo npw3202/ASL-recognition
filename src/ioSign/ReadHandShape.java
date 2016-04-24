@@ -8,9 +8,20 @@ import staticSign.HandShape;
 import staticSign.HandShapeData;
 
 public class ReadHandShape {
-	public static HandShape readSign(String fileName) throws IOException, ClassNotFoundException{
+	/**
+	 * Reads a hand shape from the file
+	 * 
+	 * @param fileName
+	 *            the name of the hand shape/file
+	 * @return the hand shape representing the sign
+	 * @throws IOException
+	 *             if a hand shape of the provided name is not found
+	 * @throws ClassNotFoundException
+	 *             if the hand shape is out of date
+	 */
+	public static HandShape readSign(String fileName) throws IOException, ClassNotFoundException {
 		ObjectInputStream input;
-		FileInputStream fin = new FileInputStream("Signs/HandShape/"+fileName);
+		FileInputStream fin = new FileInputStream("Signs/HandShape/" + fileName);
 		input = new ObjectInputStream(fin);
 		HandShape toReturn = new HandShape((HandShapeData) input.readObject());
 		toReturn.name = fileName;

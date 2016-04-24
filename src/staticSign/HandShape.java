@@ -16,14 +16,17 @@ import com.leapmotion.leap.Vector;
  * @author Nicholas
  *
  */
-public class HandShape implements Serializable{
+public class HandShape implements Serializable {
 	public static final int LEFT = 0;
 	public static final int RIGHT = 1;
 	public String name = "";
 	public HandShapeData data = new HandShapeData();
+
 	/**
 	 * Constructs a hand shape from the Hand object
-	 * @param hand the hand to construct the hand shape from
+	 * 
+	 * @param hand
+	 *            the hand to construct the hand shape from
 	 */
 	public HandShape(Hand hand) {
 		if (hand.isLeft()) {
@@ -32,19 +35,23 @@ public class HandShape implements Serializable{
 			this.data.handSide = RIGHT;
 		}
 		this.data.fingerPositions = new Vector[hand.fingers().count()];
-		for(int i = 0; i < data.fingerPositions.length; i++){
+		for (int i = 0; i < data.fingerPositions.length; i++) {
 			data.fingerPositions[i] = hand.fingers().get(i).tipPosition();
 		}
 		this.data.palmLocation = hand.palmPosition();
-		//this.data.handBasis = hand.basis();
+		// this.data.handBasis = hand.basis();
 		this.data.palmDirection = hand.palmNormal();
 	}
-	
+
 	/**
 	 * Constructs the hand shape from the given parameters
-	 * @param handSide which hand (left or right)
-	 * @param fingerPosition the position of all the fingers
-	 * @param palmLocation the position of the palm
+	 * 
+	 * @param handSide
+	 *            which hand (left or right)
+	 * @param fingerPosition
+	 *            the position of all the fingers
+	 * @param palmLocation
+	 *            the position of the palm
 	 */
 	public HandShape(int handSide, Vector fingerPosition[], Vector palmLocation) {
 		this.data.handSide = handSide;
@@ -54,7 +61,9 @@ public class HandShape implements Serializable{
 
 	/**
 	 * Creates the HandShape based on the data provided
-	 * @param readObject the hand shape
+	 * 
+	 * @param readObject
+	 *            the hand shape
 	 */
 	public HandShape(HandShapeData readObject) {
 		this.data = readObject;
@@ -62,7 +71,9 @@ public class HandShape implements Serializable{
 
 	/**
 	 * Standardizes the vectors by using the Z score
-	 * @param vects the vectors you want to standardize
+	 * 
+	 * @param vects
+	 *            the vectors you want to standardize
 	 * @return the standardized vectors
 	 */
 	private Vector[] standardizeVectors(Vector[] vects) {
@@ -98,6 +109,7 @@ public class HandShape implements Serializable{
 
 	/**
 	 * Gets the standardized coordinates of the fingers
+	 * 
 	 * @return the standardized coordinates of the fingers
 	 */
 	public Vector[] getStandardizedPos() {
@@ -106,6 +118,7 @@ public class HandShape implements Serializable{
 
 	/**
 	 * Gets the position of the fingers relative to the palm
+	 * 
 	 * @return the position of the fingers relative to the palm
 	 */
 	public Vector[] getRelPos() {
@@ -115,38 +128,44 @@ public class HandShape implements Serializable{
 		}
 		return relPos;
 	}
+
 	/**
 	 * Gets the position of the fingers
+	 * 
 	 * @return the position of the fingers
 	 */
 	public Vector[] getPos() {
 		return data.fingerPositions;
 	}
-	
+
 	/**
 	 * Finds the distance between two hand shapes
-	 * @param shape the hand shape to compare this hand shape to
+	 * 
+	 * @param shape
+	 *            the hand shape to compare this hand shape to
 	 * @return the distance
 	 */
-	public float distance(HandShape shape){
+	public float distance(HandShape shape) {
 		Vector[] stdPos1 = getStandardizedPos();
 		Vector[] stdPos2 = shape.getStandardizedPos();
 		float distance = 0;
-		for(int i = 0; i < stdPos1.length && i < stdPos2.length; i++){
+		for (int i = 0; i < stdPos1.length && i < stdPos2.length; i++) {
 			distance += stdPos1[0].minus(stdPos2[0]).magnitude();
 		}
 		return distance;
 	}
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return name;
 	}
-	private void writeObject(ObjectOutputStream out) throws IOException {
-        out.writeObject(data);
-    }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        this.data = (HandShapeData) in.readObject();
-    }
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.writeObject(data);
+	}
+
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		this.data = (HandShapeData) in.readObject();
+	}
 }
