@@ -10,8 +10,8 @@ import staticSign.HandShape;
  * Used to concatenate Dynamic and Static signs
  */
 public class Differentiator implements TrackerListener{
-    public static final float DistanceEPSILON = 0.5f;
-    public static final float OrientationEPSILON = 0.5f;
+    public static final float DistanceEPSILON = 5f;
+    public static final float OrientationEPSILON = 5f;
     public static final int PEEK_BACK_LENGTH = 5;
     HandGesture last = new HandGesture();
     /**
@@ -27,10 +27,8 @@ public class Differentiator implements TrackerListener{
         Vector distance = current.data.palmLocation.minus(previous.data.palmLocation);
         Vector orientation = current.data.palmDirection.minus(previous.data.palmDirection);
         if(distance.magnitudeSquared() < DistanceEPSILON
-                && orientation.magnitudeSquared() < OrientationEPSILON){
-            System.out.println("Static sign!!!");
+                && orientation.magnitudeSquared() < OrientationEPSILON)
             return true;
-        }
         return false;
     }
     @Override
