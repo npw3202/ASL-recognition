@@ -13,7 +13,7 @@ import java.util.Observer;
 
 public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 	private static final float THRESH_DYNAMIC = 15;
-	private static final float THRESH_STATIC = 5;
+	private static final float THRESH_STATIC = 10;
 	HandShapeSensor hss;
 	HandShape hs;
 	HandGesture hg;
@@ -77,7 +77,7 @@ public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 			String str = hg.toString();
 			HandGestureSensor hgs = new HandGestureSensor();
 			// System.out.println("Sign: " + hgs.getHandGesture(hg).name);
-			// System.out.println("Hand Shape: " + hss.getHandShape(hs));
+			//System.out.println("Hand Shape: " + hss.getHandShape(hs));
 			currentGesture = hgs.getHandGesture(hg);
 			currentShape = hss.getHandShape(hs);
 			updateListeners(hs);
@@ -120,6 +120,7 @@ public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 		//System.out.println("Is it static? it is " + dif.isStatic() + " static.");
 		String printline = dif.isStatic() ? "it is static " : "It is not static"; 
  		//System.out.println(printline);
+		
 		if (!dif.isStatic()) {
 			if (lastGesture == null || !currentGesture.name.equals(lastGesture.name)) {
 				float distance = hg.distance(currentGesture);

@@ -8,7 +8,7 @@ import java.util.Observable;
 public class SignChanger extends Observable implements TrackerListener {
 	public static final float EPSILON = 0.5f;
 	public static final int PEEK_BACK_LENGTH = 5;
-	public static final int NUM_FRAME_BETWEEN = 50;
+	public static final int NUM_FRAME_BETWEEN = 100;
 	HandGesture last = new HandGesture();
 	int frameNum;
 	@Override
