@@ -12,7 +12,7 @@ import staticSign.HandShape;
 public class Differentiator implements TrackerListener {
 	public static final float DISTANCE_EPSILON = 5f;
 	public static final float ORIENTATION_EPSILON = 5f;
-	public static final float FINGER_EPSILON = 5f;
+	public static final float FINGER_EPSILON = 0.5f;
 	public static final int PEEK_BACK_LENGTH = 5;
 	HandGesture last = new HandGesture();
 
