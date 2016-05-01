@@ -5,6 +5,8 @@ import com.leapmotion.leap.Image;
 import com.leapmotion.leap.ImageList;
 import com.leapmotion.leap.Listener;
 
+import mainPackage.Tracker;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,7 +16,7 @@ import java.io.IOException;
  * Created by Nicholas on 4/17/2016.
  */
 public class Imager extends Listener {
-	public static final String DEFAULT_PATH = "C:\\Users\\Nicholas\\git\\ASL\\image.jpg";
+	public static final String DEFAULT_PATH = "C:\\Users\\Nicholas\\git\\ASL-recognition\\image.jpg";
 	Controller c;
 	ImageList currImages = null;
 
@@ -85,6 +87,10 @@ public class Imager extends Listener {
 	 *            the images to input
 	 */
 	public void setImage(ImageList images) {
+		for(int i = 0; i < images.count(); i++){
+		 System.out.println(images.get(i));
+		}
+		System.out.println(images.count());
 		this.currImages = images;
 	}
 
@@ -121,7 +127,8 @@ public class Imager extends Listener {
 	/**
 	 * Save the image to the default location
 	 */
-	private void save() {
+	public void save() {
 		save(DEFAULT_PATH);
 	}
+
 }

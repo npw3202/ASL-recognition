@@ -35,6 +35,7 @@ public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 	float confidenceThresh = 0;
 	float confidence = 0;
 	public Tracker(Controller c) {
+		c.setPolicy (Controller.PolicyFlag.POLICY_IMAGES);
 		this.c = c;
 		im = new Imager(c);
 		hss = new HandShapeSensor();
@@ -43,6 +44,11 @@ public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 		signChanger.addObserver(this);
 		this.addListener(signChanger);
 		this.addListener(dif);
+		c.addListener(this);
+	}
+
+	public Tracker() {
+		this(new Controller());
 	}
 
 	public void onInit(Controller controller) {
