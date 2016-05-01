@@ -8,7 +8,7 @@ class main {
 	public static void main(String[] args) {
 		// Create a sample listener and controller
 		Controller controller = new Controller();
-		Tracker t = new Tracker();
+		Tracker t = new Tracker(controller);
 		controller.addListener(t);
 		try {
 			System.in.read();

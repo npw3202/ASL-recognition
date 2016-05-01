@@ -65,7 +65,7 @@ public class SaveSign extends JFrame implements TrackerListener {
 	 *            the controller from the leap
 	 */
 	public SaveSign(Controller control) {
-		track = new Tracker();
+		track = new Tracker(control);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		control.addListener(track);
 		track.addListener(this);

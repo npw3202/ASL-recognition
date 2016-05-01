@@ -66,7 +66,7 @@ public class SaveHandShape extends JFrame {
 	 *            the controller from the leap motion
 	 */
 	public SaveHandShape(Controller control) {
-		track = new Tracker();
+		track = new Tracker(control);
 		control.addListener(track);
 		jp = new JPanel(new FlowLayout());
 		fileName = new JTextField();

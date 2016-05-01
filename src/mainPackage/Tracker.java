@@ -7,10 +7,15 @@ import imaging.Imager;
 import staticSign.HandShape;
 import staticSign.HandShapeSensor;
 
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * @author Nicholas
+ *
+ */
 public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 	private static final float THRESH_DYNAMIC = 15;
 	private static final float THRESH_STATIC = 5;
@@ -25,8 +30,13 @@ public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 	Differentiator dif = new Differentiator();
 	SignChanger signChanger = new SignChanger();
 	LinkedList<TrackerListener> listeners = new LinkedList<TrackerListener>();
-	
-	public Tracker() {
+	Imager im;
+	Controller c;
+	float confidenceThresh = 0;
+	float confidence = 0;
+	public Tracker(Controller c) {
+		this.c = c;
+		im = new Imager(c);
 		hss = new HandShapeSensor();
 		hg = new HandGesture();
 		Imager im = new Imager(new Controller());
@@ -71,6 +81,7 @@ public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 		// uses the hand to create a new handshape
 		// System.out.println(hands.length);
 		if (hands.length > 0) {
+			confidence = hands[0].confidence();
 			hs = new HandShape(hands[0]);
 			hg.addHand(hs);
 			hg.parseToCurves();
@@ -115,33 +126,49 @@ public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 		}
 	}
 
+	/**
+	 * Gets the current text
+	 * @return the current text
+	 */
+	public String getText(){
+		return sentence;
+	}
+	
+	/**
+	 * Gets the current image from the leap
+	 * @return the current image
+	 */
+	public BufferedImage getImage(){
+		return im.getImage();
+	}
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		//System.out.println("Is it static? it is " + dif.isStatic() + " static.");
 		//String printline = dif.isStatic() ? "it is static " : "It is not static"; 
-		
-		if (!dif.isStatic()) {
-			if (lastGesture == null || !currentGesture.name.equals(lastGesture.name)) {
-				float distance = hg.distance(currentGesture);
-				if(distance < THRESH_DYNAMIC){
-					lastGesture = currentGesture;
-					sentence += " " + lastGesture.name;
-					System.out.println(sentence);
-					lastShape = null;
+		System.out.println("Confidence: " +confidence);
+		if(confidence > confidenceThresh){
+			if (!dif.isStatic()) {
+				if (lastGesture == null || !currentGesture.name.equals(lastGesture.name)) {
+					float distance = hg.distance(currentGesture);
+					if(distance < THRESH_DYNAMIC){
+						lastGesture = currentGesture;
+						sentence += " " + lastGesture.name;
+						System.out.println(sentence);
+						lastShape = null;
+					}
 				}
-			}
-		} else {
-			if (lastShape == null || !currentShape.name.equals(lastShape.name)) {
-				float distance = hs.distance(currentShape);
-				//System.out.println(distance);
-				if(distance < THRESH_STATIC){
-					lastShape = currentShape;
-					sentence += " " + lastShape.name;
-					System.out.println(sentence);
-					lastGesture = null;
+			} else {
+				if (lastShape == null || !currentShape.name.equals(lastShape.name)) {
+					float distance = hs.distance(currentShape);
+					//System.out.println(distance);
+					if(distance < THRESH_STATIC){
+						lastShape = currentShape;
+						sentence += " " + lastShape.name;
+						System.out.println(sentence);
+						lastGesture = null;
+					}
 				}
 			}
 		}
 	}
-
 }
