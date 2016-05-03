@@ -4,7 +4,6 @@ import java.util.*;
 
 import com.leapmotion.leap.Vector;
 
-import dynamicSign.Curve.Point;
 import staticSign.HandShape;
 
 public class HandGesture {
