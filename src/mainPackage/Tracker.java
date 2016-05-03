@@ -19,20 +19,77 @@ import java.util.Observer;
 public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 	private static final float THRESH_DYNAMIC = 15;
 	private static final float THRESH_STATIC = 5;
+	/**
+	 * @uml.property  name="hss"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	HandShapeSensor hss;
+	/**
+	 * @uml.property  name="hs"
+	 * @uml.associationEnd  
+	 */
 	HandShape hs;
+	/**
+	 * @uml.property  name="hg"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	HandGesture hg;
+	/**
+	 * @uml.property  name="currentGesture"
+	 * @uml.associationEnd  
+	 */
 	HandGesture currentGesture = null;
+	/**
+	 * @uml.property  name="currentShape"
+	 * @uml.associationEnd  
+	 */
 	HandShape currentShape = null;
+	/**
+	 * @uml.property  name="lastGesture"
+	 * @uml.associationEnd  
+	 */
 	HandGesture lastGesture = null;
+	/**
+	 * @uml.property  name="lastShape"
+	 * @uml.associationEnd  
+	 */
 	HandShape lastShape = null;
+	/**
+	 * @uml.property  name="sentence"
+	 */
 	String sentence = "";
+	/**
+	 * @uml.property  name="dif"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	Differentiator dif = new Differentiator();
+	/**
+	 * @uml.property  name="signChanger"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	SignChanger signChanger = new SignChanger();
+	/**
+	 * @uml.property  name="listeners"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="mainPackage.TrackerListener"
+	 */
 	LinkedList<TrackerListener> listeners = new LinkedList<TrackerListener>();
+	/**
+	 * @uml.property  name="im"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	Imager im;
+	/**
+	 * @uml.property  name="c"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	Controller c;
+	/**
+	 * @uml.property  name="confidenceThresh"
+	 */
 	float confidenceThresh = 0;
+	/**
+	 * @uml.property  name="confidence"
+	 */
 	float confidence = 0;
 	public Tracker(Controller c) {
 		c.setPolicy (Controller.PolicyFlag.POLICY_IMAGES);

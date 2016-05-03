@@ -8,7 +8,14 @@ import dynamicSign.Curve.Point;
 import staticSign.HandShape;
 
 public class HandGesture {
+	/**
+	 * @uml.property  name="data"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	public HandGestureData data = new HandGestureData(new LinkedList<HandShape>());
+	/**
+	 * @uml.property  name="name"
+	 */
 	public String name = "";
 	
 	/**

@@ -24,11 +24,35 @@ import java.util.Observer;
  */
 public class Gui extends Application implements Observer {
 
+	/**
+	 * @uml.property  name="gui"
+	 * @uml.associationEnd  
+	 */
 	private GuiModel gui;
+	/**
+	 * @uml.property  name="label"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Label label = new Label("Select an option");
+	/**
+	 * @uml.property  name="main"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private BorderPane main = new BorderPane();
+	/**
+	 * @uml.property  name="mainFlow"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private FlowPane mainFlow = new FlowPane();
+	/**
+	 * @uml.property  name="mainGrid"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private GridPane mainGrid = new GridPane();
+	/**
+	 * @uml.property  name="controller"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	private Controller controller = new Controller();
 
 	public void start(Stage primaryStage) {

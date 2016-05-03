@@ -7,7 +7,10 @@ import java.util.LinkedList;
  */
 public class Curve {
 	class Point {
-		public float x, y, z, t;
+		public float x;
+		public float y;
+		public float z;
+		public float t;
 
 		/**
 		 * Finds the distance from one point to another
@@ -60,6 +63,10 @@ public class Curve {
 		}
 	}
 
+	/**
+	 * @uml.property  name="func"
+	 * @uml.associationEnd  multiplicity="(0 -1)" inverse="this$0:dynamicSign.Curve$Point"
+	 */
 	LinkedList<Point> func = new LinkedList<Point>();
 
 	/**

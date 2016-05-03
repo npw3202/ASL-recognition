@@ -19,7 +19,14 @@ import com.leapmotion.leap.Vector;
 public class HandShape implements Serializable {
 	public static final int LEFT = 0;
 	public static final int RIGHT = 1;
+	/**
+	 * @uml.property  name="name"
+	 */
 	public String name = "";
+	/**
+	 * @uml.property  name="data"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	public HandShapeData data = new HandShapeData();
 
 	/**
