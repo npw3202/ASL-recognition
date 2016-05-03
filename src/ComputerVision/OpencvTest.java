@@ -97,13 +97,14 @@ public class OpencvTest
             g.drawImage(videoCap.getOneFrame(), 0, 0, this);
         }
 
+        //Keep running!
         class MyThread extends Thread{
             @Override
             public void run() {
                 for (;;){
                     repaint();
                     try { Thread.sleep(30);
-                    } catch (InterruptedException e) {    }
+                    } catch (InterruptedException e) {  e.printStackTrace();  }
                 }
             }
         }
