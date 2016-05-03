@@ -148,7 +148,7 @@ public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 			hs = new HandShape(hands[0]);
 			hg.addHand(hs);
 			hg.parseToCurves();
-			String str = hg.toString();
+			//String str = hg.toString();
 			HandGestureSensor hgs = new HandGestureSensor();
 			// System.out.println("Sign: " + hgs.getHandGesture(hg).name);
 			//System.out.println("Hand Shape: " + hss.getHandShape(hs));

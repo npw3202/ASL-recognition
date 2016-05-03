@@ -1,11 +1,9 @@
 package dynamicSign;
 
-import java.util.*;
-
 import com.leapmotion.leap.Vector;
-
-import dynamicSign.Curve.Point;
 import staticSign.HandShape;
+
+import java.util.LinkedList;
 
 public class HandGesture {
 	/**
@@ -151,7 +149,7 @@ public class HandGesture {
 		}
 		return minDist;//distance(hg2,0,0);
 	}
-	public float distanceHuristic(HandGesture hg2, HandShape start1,
+	public float distanceHeuristic(HandGesture hg2, HandShape start1,
 			HandShape start2) {
 		HandShape end1 = data.handList.get(data.handList.size() - 1);
 		HandShape end2 = hg2.data.handList.get(hg2.data.handList.size() - 1);
