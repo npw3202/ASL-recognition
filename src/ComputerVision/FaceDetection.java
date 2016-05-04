@@ -10,44 +10,50 @@ import org.opencv.core.Point;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 import org.opencv.objdetect.CascadeClassifier;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-
 
 public class FaceDetection extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private DaemonThread myThread = null;
-    VideoCapture webSource = null;
+    VideoCapture webSource = new VideoCapture();
     Mat frame = new Mat();
     MatOfByte mem = new MatOfByte();
+    /*
     CascadeClassifier faceDetector = new
             CascadeClassifier(FaceDetection.class.getResource
-            ("haarcascade_frontalface_alt.xml").getPath().substring(1));
-    MatOfRect faceDetections = new MatOfRect();
+            ("haarcascade_frontalface_alt.xml").getPath().substring(1));*/
+    CascadeClassifier faceDetector = new CascadeClassifier();
+
+    private MatOfRect faceDetections = new MatOfRect();
     class DaemonThread implements Runnable {
-
         protected volatile boolean runnable = false;
-
         @Override
         public void run() {
             synchronized (this) {
+                webSource.open(0);
+                faceDetector.load("/opt/local/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml");
+                //WHY DOES IT NOT WORK FROM SOURCE PATH???
                 while (runnable) {
                     if (webSource.grab()) {
                         try {
                             webSource.retrieve(frame);
                             Graphics g = jPanel1.getGraphics();
                             faceDetector.detectMultiScale(frame, faceDetections);
+                            //faceDetector.load("/opt/local/share/OpenCV/lbpcascades/lbpcascade_frontalface.xml");
+                            /*faceDetector.load(FaceDetection.class.getResource("lbpcascade_frontalface.xml").getPath()
+                                    .substring(1));*/
+                            /*Not sure why this only works from this specific directory, notice how it is also in the
+                            src path -_- */
                             System.out.println("NUMBER OF FACE DETECTIONS: " + faceDetections.toArray().length);
                             for (Rect rect : faceDetections.toArray()) {
                                 Core.rectangle(frame, new Point(rect.x, rect.y),
                                         new Point(rect.x + rect.width, rect.y + rect.height),
                                         new Scalar(0, 255, 0));
-                                System.out.println("Rectangle??");
                             }
                             Highgui.imencode(".bmp", frame, mem);
                             Image im = ImageIO.read(new ByteArrayInputStream(mem.toArray()));
