@@ -82,7 +82,7 @@ public class Tracker extends com.leapmotion.leap.Listener implements Observer {
 	 * @uml.property  name="c"
 	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
-	Controller c;
+	public Controller c;
 	/**
 	 * @uml.property  name="confidenceThresh"
 	 */
