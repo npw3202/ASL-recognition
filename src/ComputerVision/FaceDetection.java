@@ -74,7 +74,7 @@ public class FaceDetection extends javax.swing.JFrame {
      */
     public FaceDetection() {
         initComponents();
-        System.out.println(FaceDetection.class.getResource("haarcasecade_frontalface_alt.xml").getPath().substring(1));
+        System.out.println(FaceDetection.class.getResource("haarcascade_frontalface_alt.xml").getPath().substring(1));
     }
 
     /**
