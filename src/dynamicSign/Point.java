@@ -27,8 +27,7 @@ public class Point {
 	 * @return the distance squared between the two points
 	 */
 	public float distanceSquared(Point p2) {
-		return (float) (Math.pow(p2.x - x, 2) + Math.pow(p2.y - y, 2) + Math
-				.pow(p2.z - z, 2));
+		return (float) (Math.pow(p2.x - x, 2) + Math.pow(p2.y - y, 2) + Math.pow(p2.z - z, 2));
 	}
 
 	/**
