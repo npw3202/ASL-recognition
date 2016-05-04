@@ -18,10 +18,10 @@ import java.io.ByteArrayInputStream;
 
 
 public class FaceDetection extends javax.swing.JFrame {
-///
-
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JPanel jPanel1;
     private DaemonThread myThread = null;
-    int count = 0;
     VideoCapture webSource = null;
     Mat frame = new Mat();
     MatOfByte mem = new MatOfByte();
@@ -67,8 +67,6 @@ public class FaceDetection extends javax.swing.JFrame {
             }
         }
     }
-
-/////////
     /**
      * Creates new form FaceDetection
      */
@@ -76,7 +74,6 @@ public class FaceDetection extends javax.swing.JFrame {
         initComponents();
         System.out.println(FaceDetection.class.getResource("haarcascade_frontalface_alt.xml").getPath().substring(1));
     }
-
     /**
      * GUI Interface for Face Detection
      */
@@ -139,9 +136,8 @@ public class FaceDetection extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    }
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         myThread.runnable = false;            // stop thread
         jButton2.setEnabled(false);   // activate start button
         jButton1.setEnabled(true);     // deactivate stop button
@@ -149,7 +145,7 @@ public class FaceDetection extends javax.swing.JFrame {
         webSource.release();  // stop caturing fron cam
 
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
@@ -163,18 +159,14 @@ public class FaceDetection extends javax.swing.JFrame {
         jButton2.setEnabled(true);  //  activate stop button
 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+    }
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -191,7 +183,6 @@ public class FaceDetection extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FaceDetection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -200,9 +191,4 @@ public class FaceDetection extends javax.swing.JFrame {
             }
         });
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JPanel jPanel1;
-    // End of variables declaration//GEN-END:variables
 }
