@@ -2,8 +2,7 @@ package ComputerVision;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.highgui.VideoCapture;
-
+import org.opencv.videoio.VideoCapture;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
