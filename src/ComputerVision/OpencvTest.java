@@ -5,14 +5,12 @@ import org.opencv.core.*;
 import org.opencv.core.Point;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
-import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Vector;
 
 
 public class OpencvTest
@@ -166,44 +164,22 @@ public class OpencvTest
      * Launch the application.
      */
     public static void main(String[] args) {
-        String fn_haar = "haarcasecade_frontalface_alt.xml";
-        String fn_csv = " ";
-        int deviceID = 0;
+        VideoCapture capture = new VideoCapture();
+        capture.open(0);
+        Mat mat = new Mat();
+        MatOfByte mem = new MatOfByte();
+        if(capture.grab()){
+            capture.read(mat);
+            Mat2Image mat2Image = new Mat2Image();
 
-        Vector<Mat> images = new Vector<>();
-        //Vector<Integer> labels = new Vector<>();
+            Highgui.imencode(".bmp", mat, mem);
 
-        VideoCapture cap = new VideoCapture();
-        Mat frame = new Mat();
-        cap.open(0);
-        CascadeClassifier haar_Cascade = new CascadeClassifier();
-        haar_Cascade.load(fn_haar);
-        int imHeight = frame.height();
-        int imWidth = frame.width();
+            //BufferedImage image = mat2Image.getImage(mat);
 
-        FaceRecognizer model = new LBPHFaceRecognizer();
-        model.train(images, frame);
-        for(;;){
-            Mat original = frame.clone();
-            Mat gray = new Mat();
-            Imgproc.cvtColor(original, gray, Imgproc.COLOR_BGR2GRAY);
-            MatOfRect faces = new MatOfRect();
-            haar_Cascade.detectMultiScale(gray, faces);
-            for(Rect rect: faces.toArray()){
-                Mat face = gray.adjustROI(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height);
-                Mat faceResize = new Mat();
-                Imgproc.resize(face, faceResize, new Size(frame.width(), frame.height()), 1.0, 1.0, Imgproc.INTER_CUBIC);
-                model.predict(faceResize, new int[1], new double[1]);
-                Core.rectangle(frame, new Point(rect.x, rect.y),
-                        new Point(rect.x + rect.width, rect.y + rect.height),
-                        new Scalar(0, 255, 0));
-            }
-            Highgui.imencode("Face_recognizer", original, new MatOfByte());
 
         }
 
-        /*
-        EventQueue.invokeLater(new Runnable() {
+        /*EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
                     MyFrame frame = new MyFrame();

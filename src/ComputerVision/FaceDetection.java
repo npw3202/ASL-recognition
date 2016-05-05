@@ -9,7 +9,9 @@ import org.opencv.core.*;
 import org.opencv.core.Point;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
+import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -20,15 +22,15 @@ public class FaceDetection extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private DaemonThread myThread = null;
-    VideoCapture webSource = new VideoCapture();
-    Mat frame = new Mat();
-    MatOfByte mem = new MatOfByte();
-    /*
+    private VideoCapture webSource = new VideoCapture();
+    private Mat frame = new Mat();
+    private MatOfByte mem = new MatOfByte();
+    /*private String cascadePath = FaceDetection.class.getResource
+            ("haarcascade_frontalface_alt.xml").getPath().substring(1);*/
     CascadeClassifier faceDetector = new
-            CascadeClassifier(FaceDetection.class.getResource
-            ("haarcascade_frontalface_alt.xml").getPath().substring(1));*/
-    CascadeClassifier faceDetector = new CascadeClassifier();
-
+            CascadeClassifier("/"+FaceDetection.class.getResource
+            ("haarcascade_frontalface_alt.xml").getPath().substring(1));
+    //private CascadeClassifier faceDetector = new CascadeClassifier();
     private MatOfRect faceDetections = new MatOfRect();
     class DaemonThread implements Runnable {
         protected volatile boolean runnable = false;
@@ -36,39 +38,46 @@ public class FaceDetection extends javax.swing.JFrame {
         public void run() {
             synchronized (this) {
                 webSource.open(0);
-                faceDetector.load("/opt/local/share/OpenCV/haarcascades/haarcascade_frontalface_alt.xml");
-                //WHY DOES IT NOT WORK FROM SOURCE PATH???
+                //System.out.println("MY OPERATING SYSTEM IS: " + System.clearProperty("os.name"));
+
+                /*if(System.getProperty("os.name").equals("Windows")){
+                    faceDetector.load(cascadePath);
+                }else{
+                    faceDetector.load("/"+cascadePath);
+                }*/
+                int i = 0;
                 while (runnable) {
-                    if (webSource.grab()) {
-                        try {
-                            webSource.retrieve(frame);
-                            Graphics g = jPanel1.getGraphics();
-                            faceDetector.detectMultiScale(frame, faceDetections);
-                            //faceDetector.load("/opt/local/share/OpenCV/lbpcascades/lbpcascade_frontalface.xml");
-                            /*faceDetector.load(FaceDetection.class.getResource("lbpcascade_frontalface.xml").getPath()
-                                    .substring(1));*/
-                            /*Not sure why this only works from this specific directory, notice how it is also in the
-                            src path -_- */
-                            System.out.println("NUMBER OF FACE DETECTIONS: " + faceDetections.toArray().length);
-                            for (Rect rect : faceDetections.toArray()) {
-                                Core.rectangle(frame, new Point(rect.x, rect.y),
-                                        new Point(rect.x + rect.width, rect.y + rect.height),
-                                        new Scalar(0, 255, 0));
-                            }
-                            Highgui.imencode(".bmp", frame, mem);
-                            Image im = ImageIO.read(new ByteArrayInputStream(mem.toArray()));
-                            BufferedImage buff = (BufferedImage) im;
-                            if (g.drawImage(buff, 0, 0, getWidth(),
-                                    getHeight()-150 , 0, 0, buff.getWidth(), buff.getHeight(), null)) {
-                                if (!runnable) {
-                                    System.out.println("Paused ..... ");
-                                    this.wait();
+                        if (webSource.grab()) {
+                            try {
+                                webSource.retrieve(frame);
+                                Graphics g = jPanel1.getGraphics();
+                                //if(i%3 == 0){
+                                Mat frame2 = frame.clone();
+                                Size sz = new Size(200, 200);
+                                Imgproc.resize(frame2, frame, sz);
+                                faceDetector.detectMultiScale(frame, faceDetections);
+                                //}
+                                System.out.println("NUMBER OF FACE DETECTIONS: " + faceDetections.toArray().length);
+                                for (Rect rect : faceDetections.toArray()) {
+                                    Core.rectangle(frame, new Point(rect.x, rect.y),
+                                            new Point(rect.x + rect.width, rect.y + rect.height),
+                                            new Scalar(0, 255, 0));
                                 }
+                                Highgui.imencode(".bmp", frame, mem);
+                                Image im = ImageIO.read(new ByteArrayInputStream(mem.toArray()));
+                                BufferedImage buff = (BufferedImage) im;
+                                if (g.drawImage(buff, 0, 0, getWidth(),
+                                        getHeight()-150 , 0, 0, buff.getWidth(), buff.getHeight(), null)) {
+                                    if (!runnable) {
+                                        System.out.println("Paused ..... ");
+                                        this.wait();
+                                    }
+                                }
+                            } catch (Exception ex) {
+                                System.out.println("Error");
                             }
-                        } catch (Exception ex) {
-                            System.out.println("Error");
                         }
-                    }
+                    ++i;
                 }
             }
         }
@@ -78,7 +87,7 @@ public class FaceDetection extends javax.swing.JFrame {
      */
     public FaceDetection() {
         initComponents();
-        System.out.println(FaceDetection.class.getResource("haarcascade_frontalface_alt.xml").getPath().substring(1));
+        System.out.println("/"+FaceDetection.class.getResource("haarcascade_frontalface_alt.xml").getPath().substring(1));
     }
     /**
      * GUI Interface for Face Detection
