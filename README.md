@@ -6,12 +6,12 @@ You can run this program by running the executable jar file ASL-recognition.jar 
 # Architecture
 The architecture of this program is quite unique. 
 # Contributors
-#Programmers
-Nicholas Wilkins
-Qadir Haqq
-Liz & Kyle
-#Math modelers
-Nicholas Wilkins
-Bezankeng Njinju
-Ryne Beachly
+**Programmers**  
+Nicholas Wilkins  
+Qadir Haqq  
+Liz & Kyle  
+**Math modelers**  
+Nicholas Wilkins  
+Bezankeng Njinju  
+Ryne Beachly  
 Kevin Ching
