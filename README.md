@@ -5,3 +5,13 @@ To setup this ASL-recognition, you must obtain the leap motion SDK and opencv 2.
 You can run this program by running the executable jar file ASL-recognition.jar (in the root directory).
 # Architecture
 The architecture of this program is quite unique. 
+# Contributors
+#Programmers
+Nicholas Wilkins
+Qadir Haqq
+Liz & Kyle
+#Math modelers
+Nicholas Wilkins
+Bezankeng Njinju
+Ryne Beachly
+Kevin Ching
