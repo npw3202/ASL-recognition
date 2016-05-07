@@ -13,15 +13,15 @@
                 <Insets right="10" left="10" />
             </padding>
             <Label text="Hue Start" />
-            <Slider fx:id="hueStart" min="0" max="180" value="20" blockIncrement="1" />
+            <Slider fx:id="hueStart" min="0" max="180" value="0" blockIncrement="1" />
             <Label text="Hue Stop" />
-            <Slider fx:id="hueStop" min="0" max="180" value="50" blockIncrement="1" />
+            <Slider fx:id="hueStop" min="0" max="180" value="153" blockIncrement="1" />
             <Label text="Saturation Start" />
-            <Slider fx:id="saturationStart" min="0" max="255" value="60" blockIncrement="1" />
+            <Slider fx:id="saturationStart" min="0" max="255" value="51" blockIncrement="1" />
             <Label text="Saturation Stop" />
-            <Slider fx:id="saturationStop" min="0" max="255" value="200" blockIncrement="1" />
+            <Slider fx:id="saturationStop" min="0" max="255" value="81" blockIncrement="1" />
             <Label text="Value Start" />
-            <Slider fx:id="valueStart" min="0" max="255" value="50" blockIncrement="1" />
+            <Slider fx:id="valueStart" min="0" max="255" value="89" blockIncrement="1" />
             <Label text="Value Stop" />
             <Slider fx:id="valueStop" min="0" max="255" value="255" blockIncrement="1" />
         </VBox>

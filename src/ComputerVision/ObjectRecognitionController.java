@@ -23,6 +23,10 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by qadirhaqq on 5/6/16.
+ * Object Detection Basecode taken from:
+ * http://opencv-java-tutorials.readthedocs.io/en/latest/08-object-detection.html
+ * The base code was taken from this tutorial and we changed/modified as needed for our project.
+ * If you like what you see, please contribute and please read the opencv tutorials and get involved
  */
 public class ObjectRecognitionController {
 
@@ -101,8 +105,8 @@ public class ObjectRecognitionController {
                     @Override
                     public void run()
                     {
-                        Image imageToShow = grabFrame();
-                        originalFrame.setImage(imageToShow);
+                        //System.out.println("Running");
+                        grabFrame();
                     }
                 };
 
@@ -147,7 +151,7 @@ public class ObjectRecognitionController {
      *
      * @return the {@link Image} to show
      */
-    private Image grabFrame()
+    private void grabFrame()
     {
         // init everything
         Image imageToShow = null;
@@ -189,7 +193,7 @@ public class ObjectRecognitionController {
                             + minValues.val[2] + "-" + maxValues.val[2];
                     this.onFXThread(this.hsvValuesProp, valuesToPrint);
 
-                    // threshold HSV image to select tennis balls
+                    // threshold HSV image to select object
                     Core.inRange(hsvImage, minValues, maxValues, mask);
                     // show the partial output
                     this.onFXThread(this.maskImage.imageProperty(), this.mat2Image(mask));
@@ -208,11 +212,10 @@ public class ObjectRecognitionController {
                     // show the partial output
                     this.onFXThread(this.morphImage.imageProperty(), this.mat2Image(morphOutput));
 
-                    // find the tennis ball(s) contours and show them
-                    frame = this.findAndDrawBalls(morphOutput, frame);
+                    // find the object
+                    frame = this.findAndDrawObject(morphOutput, frame);
+                    this.onFXThread(this.originalFrame.imageProperty(), this.mat2Image(frame));
 
-                    // convert the Mat object (OpenCV) to Image (JavaFX)
-                    imageToShow = mat2Image(frame);
                 }
 
             }
@@ -223,8 +226,6 @@ public class ObjectRecognitionController {
                 e.printStackTrace();
             }
         }
-
-        return imageToShow;
     }
 
     /**
@@ -238,22 +239,68 @@ public class ObjectRecognitionController {
      *            objects contours
      * @return the {@link Mat} image with the objects contours framed
      */
-    private Mat findAndDrawBalls(Mat maskedImage, Mat frame)
+    private Mat findAndDrawObject(Mat maskedImage, Mat frame)
     {
         // init
         List<MatOfPoint> contours = new ArrayList<>();
+
         Mat hierarchy = new Mat();
+
+        ArrayList<ArrayList<Double>> xList = new ArrayList<>();
+        ArrayList<ArrayList<Double>> yList = new ArrayList<>();
 
         // find contours
         Imgproc.findContours(maskedImage, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
 
-        // if any contour exist...
+        double xCenter = 0;
+        double yCenter = 0;
+        for(MatOfPoint mop : contours){
+            xList.add(new ArrayList<Double>());
+            yList.add(new ArrayList<Double>());
+            for(Point p : mop.toList()){
+                xList.get(xList.size()-1).add(p.x);
+                yList.get(yList.size()-1).add(p.y);
+            }
+        }
+        ArrayList<Double> area =  new ArrayList<>();
+        ArrayList<Point> min = new ArrayList<>();
+        ArrayList<Point> max = new ArrayList<>();
+
+
+        for(int i = 0; i < xList.size(); ++i){
+            double thisArea = 0;
+            for(int j = 0; j < xList.get(i).size()-1; ++j){
+                thisArea += (Math.abs(xList.get(i).get(j+1) - xList.get(i).get(j))) * yList.get(i).get(j);
+            }
+            area.add(thisArea);
+        }
+        int maxIndex = 0;
+        for(int i = 1; i < xList.size(); ++i){
+            if(area.get(i) > area.get(maxIndex)){
+                maxIndex = i;
+            }
+        }
+
+        for(int i = 0; i < xList.get(maxIndex).size(); ++i) {
+            xCenter += xList.get(maxIndex).get(i);
+            yCenter += yList.get(maxIndex).get(i);
+        }
+        xCenter /= xList.get(maxIndex).size();
+        yCenter /= yList.get(maxIndex).size();
+
+        //System.out.println("Area: " + area);
+
+        // if any contours exist...
         if (hierarchy.size().height > 0 && hierarchy.size().width > 0)
         {
             // for each contour, display it in blue
             for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0])
             {
+                //TODO For hand detection, values between
+                //Hue: 0.0-153 Saturation: 121-197 Value: 89-255
+                Core.circle(frame, new Point(xCenter , yCenter), 55 ,new Scalar(0, 0, 255), -5);
                 Imgproc.drawContours(frame, contours, idx, new Scalar(250, 0, 0));
+
             }
         }
 
@@ -289,9 +336,9 @@ public class ObjectRecognitionController {
     {
         // create a temporary buffer
         MatOfByte buffer = new MatOfByte();
-        // encode the frame in the buffer, according to the PNG format
+        // encode the frame in the buffer, according to the bitmap format
         if(Highgui.imencode(".bmp", frame, buffer)){
-            System.out.println("HighGui is successful");
+            //System.out.println("HighGui is successful");
         }
         else{
             System.out.println("Highgui is unsuccessful");
