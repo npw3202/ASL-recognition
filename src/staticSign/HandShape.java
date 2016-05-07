@@ -1,16 +1,13 @@
 package staticSign;
 
+import com.leapmotion.leap.Hand;
+import com.leapmotion.leap.Vector;
+import mainPackage.Stats;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
-import mainPackage.Stats;
-import staticSign.HandShapeData;
-
-import com.leapmotion.leap.Frame;
-import com.leapmotion.leap.Hand;
-import com.leapmotion.leap.Vector;
 
 /**
  * @author Nicholas
@@ -168,10 +165,11 @@ public class HandShape implements Serializable {
 		return name;
 	}
 
+	//Write an object to the Sign package
 	private void writeObject(ObjectOutputStream out) throws IOException {
 		out.writeObject(data);
 	}
-
+    //Read an object from the sign package
 	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 		this.data = (HandShapeData) in.readObject();
 	}

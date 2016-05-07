@@ -66,11 +66,13 @@ public class ObjectRecognitionController {
     private VideoCapture capture = new VideoCapture();
     // a flag to change the button behavior
     private boolean cameraActive;
+    //Face detector objects
     CascadeClassifier faceDetector = new CascadeClassifier("/"+ObjectRecognitionController.class
     .getResource("haarcascade_frontalface_alt.xml").getPath().substring(1));
     private MatOfRect faceDetections = new MatOfRect();
     // property for object binding
     private ObjectProperty<String> hsvValuesProp;
+    //Below variables are pretty self explanatory
     private Double faceHandDistance = 0.0;
     private boolean faceHandDistanceUpdated = false;
     /**
@@ -191,7 +193,7 @@ public class ObjectRecognitionController {
                     // show the current selected HSV range
                     String valuesToPrint = "Hue range: " + minValues.val[0] + "-" + maxValues.val[0]
                             + "\tSaturation range: " + minValues.val[1] + "-" + maxValues.val[1] + "\tValue range: "
-                            + minValues.val[2] + "-" + maxValues.val[2] + "\nDistance between face and hand: " +
+                            + minValues.val[2] + "-" + maxValues.val[2] + "\nDistance between face and hands: " +
                             faceHandDistance;
                     this.onFXThread(this.hsvValuesProp, valuesToPrint);
 
@@ -230,10 +232,18 @@ public class ObjectRecognitionController {
         }
     }
 
+    /**
+     * To be used for outer class use
+     * @return boolean determining if the face to hand distance has been updated
+     */
     private boolean getFaceHandUpdated(){
         return faceHandDistanceUpdated;
     }
 
+    /**
+     * To be used for outer class use
+     * @return Value of the distance between the face and the hands
+     */
     private Double getFaceHandDistance(){
         return faceHandDistance;
     }
@@ -262,7 +272,7 @@ public class ObjectRecognitionController {
         ArrayList<ArrayList<Double>> yList = new ArrayList<>();
 
         // find contours
-        Size sz = new Size(500, 500);
+        Size sz = new Size(500, 500);//Trade off between beauty of images and speed of program
         Imgproc.resize(frame, frame, sz);
         Imgproc.resize(maskedImage, maskedImage, sz);
         Imgproc.findContours(maskedImage, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
@@ -270,15 +280,15 @@ public class ObjectRecognitionController {
         double handXCenter = 0;
         double handYCenter = 0;
         for(MatOfPoint mop : contours){
-            xList.add(new ArrayList<Double>());
-            yList.add(new ArrayList<Double>());
+            xList.add(new ArrayList<>());
+            yList.add(new ArrayList<>());
             for(Point p : mop.toList()){
                 xList.get(xList.size()-1).add(p.x);
                 yList.get(yList.size()-1).add(p.y);
             }
         }
         ArrayList<Double> area =  new ArrayList<>();
-
+        //Find the largest area contour, which should be the hand
         for(int i = 0; i < xList.size(); ++i){
             double thisArea = 0;
             for(int j = 0; j < xList.get(i).size()-1; ++j){
@@ -292,7 +302,7 @@ public class ObjectRecognitionController {
                 maxIndex = i;
             }
         }
-
+        //Sometimes there are no contours and in that case we just skip
         if(xList.size() > 0 && yList.size() > 0){
             for(int i = 0; i < xList.get(maxIndex).size(); ++i) {
                 handXCenter += xList.get(maxIndex).get(i);
@@ -305,8 +315,9 @@ public class ObjectRecognitionController {
         Double faceXCenter;
         Double faceYCenter;
 
+        //There is however, always a face
         faceDetector.detectMultiScale(frame, faceDetections);
-        for(Rect rect: faceDetections.toArray()){
+        for(Rect rect: faceDetections.toArray()){//Face detections is most often one
             Point p1 = new Point(rect.x, rect.y);
             Point p2 = new Point(rect.x + rect.width, rect.y + rect.height);
             Core.rectangle(frame, p1, p2, new Scalar(0, 255, 0));
@@ -325,7 +336,7 @@ public class ObjectRecognitionController {
                 //TODO: For hand detection, determine values depending on surrounding environment
                 //Hue: 0.0-153 Saturation: 121-197 Value: 89-255
                 Core.circle(frame, new Point(handXCenter , handYCenter), 25 ,new Scalar(0, 0, 255), -5);
-                //Imgproc.drawContours(frame, contours, idx, new Scalar(250, 0, 0));
+                //Imgproc.drawContours(frame, contours, idx, new Scalar(250, 0, 0));//Contours useful for debugging
 
             }
         }
@@ -364,7 +375,7 @@ public class ObjectRecognitionController {
         MatOfByte buffer = new MatOfByte();
         // encode the frame in the buffer, according to the bitmap format
         if(Highgui.imencode(".bmp", frame, buffer)){
-            //System.out.println("HighGui is successful");
+            System.out.println("Highgui is successful");
         }
         else{
             System.out.println("Highgui is unsuccessful");
