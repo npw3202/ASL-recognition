@@ -13,6 +13,7 @@ import org.opencv.core.*;
 import org.opencv.highgui.Highgui;
 import org.opencv.highgui.VideoCapture;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.objdetect.CascadeClassifier;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -65,10 +66,13 @@ public class ObjectRecognitionController {
     private VideoCapture capture = new VideoCapture();
     // a flag to change the button behavior
     private boolean cameraActive;
-
+    CascadeClassifier faceDetector = new CascadeClassifier("/"+ObjectRecognitionController.class
+    .getResource("haarcascade_frontalface_alt.xml").getPath().substring(1));
+    private MatOfRect faceDetections = new MatOfRect();
     // property for object binding
     private ObjectProperty<String> hsvValuesProp;
-
+    private Double faceHandDistance = 0.0;
+    private boolean faceHandDistanceUpdated = false;
     /**
      * The action triggered by pushing the button on the GUI
      */
@@ -91,7 +95,7 @@ public class ObjectRecognitionController {
             if(this.capture.open(0)){
                 System.out.println("Success, opened camera...");
             }else{
-                System.out.println("Problem");
+                System.out.println("Problem...");
             }
             // is the video stream available?
             if (this.capture.isOpened())
@@ -101,11 +105,9 @@ public class ObjectRecognitionController {
 
                 // grab a frame every 33 ms (30 frames/sec)
                 Runnable frameGrabber = new Runnable() {
-
                     @Override
                     public void run()
                     {
-                        //System.out.println("Running");
                         grabFrame();
                     }
                 };
@@ -154,7 +156,6 @@ public class ObjectRecognitionController {
     private void grabFrame()
     {
         // init everything
-        Image imageToShow = null;
         Mat frame = new Mat();
 
         // check if the capture is open
@@ -190,7 +191,8 @@ public class ObjectRecognitionController {
                     // show the current selected HSV range
                     String valuesToPrint = "Hue range: " + minValues.val[0] + "-" + maxValues.val[0]
                             + "\tSaturation range: " + minValues.val[1] + "-" + maxValues.val[1] + "\tValue range: "
-                            + minValues.val[2] + "-" + maxValues.val[2];
+                            + minValues.val[2] + "-" + maxValues.val[2] + "\nDistance between face and hand: " +
+                            faceHandDistance;
                     this.onFXThread(this.hsvValuesProp, valuesToPrint);
 
                     // threshold HSV image to select object
@@ -228,6 +230,14 @@ public class ObjectRecognitionController {
         }
     }
 
+    private boolean getFaceHandUpdated(){
+        return faceHandDistanceUpdated;
+    }
+
+    private Double getFaceHandDistance(){
+        return faceHandDistance;
+    }
+
     /**
      * Given a binary image containing one or more closed surfaces, use it as a
      * mask to find and highlight the objects contours
@@ -244,16 +254,21 @@ public class ObjectRecognitionController {
         // init
         List<MatOfPoint> contours = new ArrayList<>();
 
+        faceHandDistanceUpdated = false;
+
         Mat hierarchy = new Mat();
 
         ArrayList<ArrayList<Double>> xList = new ArrayList<>();
         ArrayList<ArrayList<Double>> yList = new ArrayList<>();
 
         // find contours
+        Size sz = new Size(500, 500);
+        Imgproc.resize(frame, frame, sz);
+        Imgproc.resize(maskedImage, maskedImage, sz);
         Imgproc.findContours(maskedImage, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
 
-        double xCenter = 0;
-        double yCenter = 0;
+        double handXCenter = 0;
+        double handYCenter = 0;
         for(MatOfPoint mop : contours){
             xList.add(new ArrayList<Double>());
             yList.add(new ArrayList<Double>());
@@ -263,9 +278,6 @@ public class ObjectRecognitionController {
             }
         }
         ArrayList<Double> area =  new ArrayList<>();
-        ArrayList<Point> min = new ArrayList<>();
-        ArrayList<Point> max = new ArrayList<>();
-
 
         for(int i = 0; i < xList.size(); ++i){
             double thisArea = 0;
@@ -281,25 +293,39 @@ public class ObjectRecognitionController {
             }
         }
 
-        for(int i = 0; i < xList.get(maxIndex).size(); ++i) {
-            xCenter += xList.get(maxIndex).get(i);
-            yCenter += yList.get(maxIndex).get(i);
+        if(xList.size() > 0 && yList.size() > 0){
+            for(int i = 0; i < xList.get(maxIndex).size(); ++i) {
+                handXCenter += xList.get(maxIndex).get(i);
+                handYCenter += yList.get(maxIndex).get(i);
+            }
+            handXCenter /= xList.get(maxIndex).size();
+            handYCenter /= yList.get(maxIndex).size();
         }
-        xCenter /= xList.get(maxIndex).size();
-        yCenter /= yList.get(maxIndex).size();
-
-        //System.out.println("Area: " + area);
-
         // if any contours exist...
+        Double faceXCenter;
+        Double faceYCenter;
+
+        faceDetector.detectMultiScale(frame, faceDetections);
+        for(Rect rect: faceDetections.toArray()){
+            Point p1 = new Point(rect.x, rect.y);
+            Point p2 = new Point(rect.x + rect.width, rect.y + rect.height);
+            Core.rectangle(frame, p1, p2, new Scalar(0, 255, 0));
+            faceXCenter = (p1.x + p2.x)/2;//(double)rect.width/2;
+            faceYCenter = (p1.y + p2.y)/2;//(double)rect.height/2;//
+            Core.circle(frame, new Point(faceXCenter, faceYCenter), 15, new Scalar(100, 100, 100), -1);
+            faceHandDistance = Math.sqrt(Math.pow((handXCenter-faceXCenter), 2)
+                    + Math.pow((handYCenter - faceYCenter) , 2));
+            faceHandDistanceUpdated = true;
+        }
         if (hierarchy.size().height > 0 && hierarchy.size().width > 0)
         {
             // for each contour, display it in blue
             for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0])
             {
-                //TODO For hand detection, values between
+                //TODO: For hand detection, determine values depending on surrounding environment
                 //Hue: 0.0-153 Saturation: 121-197 Value: 89-255
-                Core.circle(frame, new Point(xCenter , yCenter), 55 ,new Scalar(0, 0, 255), -5);
-                Imgproc.drawContours(frame, contours, idx, new Scalar(250, 0, 0));
+                Core.circle(frame, new Point(handXCenter , handYCenter), 25 ,new Scalar(0, 0, 255), -5);
+                //Imgproc.drawContours(frame, contours, idx, new Scalar(250, 0, 0));
 
             }
         }
