@@ -21,7 +21,7 @@ public class ReadSign {
 	 */
 	public static HandGesture readSign(String fileName) throws IOException, ClassNotFoundException {
 		ObjectInputStream input;
-		FileInputStream fin = new FileInputStream("Signs/DynamicSign/" + fileName);
+		FileInputStream fin = new FileInputStream("Signs/"+ReaderWriter.PROFILE + "/DynamicSign/" + fileName);
 		input = new ObjectInputStream(fin);
 		HandGestureData hgd = (HandGestureData) input.readObject();
 		HandGesture toReturn = new HandGesture(hgd);

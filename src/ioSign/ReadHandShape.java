@@ -21,7 +21,8 @@ public class ReadHandShape {
 	 */
 	public static HandShape readSign(String fileName) throws IOException, ClassNotFoundException {
 		ObjectInputStream input;
-		FileInputStream fin = new FileInputStream("Signs/HandShape/" + fileName);
+		System.out.println("Signs/nicholas/HandShape/" + fileName);
+		FileInputStream fin = new FileInputStream("Signs/"+ReaderWriter.PROFILE+"/HandShape/" + fileName);
 		input = new ObjectInputStream(fin);
 		HandShape toReturn = new HandShape((HandShapeData) input.readObject());
 		toReturn.name = fileName;

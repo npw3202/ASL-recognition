@@ -1,6 +1,7 @@
 package staticSign;
 
 import ioSign.ReadHandShape;
+import ioSign.ReaderWriter;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class HandShapeSensor {
 	LinkedList<HandShape> handShapes = new LinkedList<HandShape>();
 
 	public HandShapeSensor() {
-		File folder = new File("Signs/HandShape");
+		File folder = new File("Signs/" + ReaderWriter.PROFILE + "/HandShape");
 		File[] listOfFiles = folder.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {

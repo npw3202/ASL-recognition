@@ -2,6 +2,7 @@ package dynamicSign;
 
 import ioSign.ReadHandShape;
 import ioSign.ReadSign;
+import ioSign.ReaderWriter;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class HandGestureSensor {
 	LinkedList<HandGesture> handGestures = new LinkedList<HandGesture>();
 
 	public HandGestureSensor() {
-		File folder = new File("Signs/DynamicSign");
+		File folder = new File("Signs/" + ReaderWriter.PROFILE + "/DynamicSign");
 		File[] listOfFiles = folder.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {

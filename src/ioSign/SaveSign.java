@@ -65,7 +65,7 @@ public class SaveSign extends JFrame implements TrackerListener {
 								JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					FileOutputStream fout = new FileOutputStream("Signs/DynamicSign/" + name);
+					FileOutputStream fout = new FileOutputStream("Signs/" + ReaderWriter.PROFILE + "/DynamicSign/" + name);
 					ObjectOutputStream oos = new ObjectOutputStream(fout);
 					// assuming the hand of interest is the first hand in the
 					// array

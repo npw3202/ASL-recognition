@@ -59,7 +59,7 @@ public class SaveHandShape extends JFrame {
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				FileOutputStream fout = new FileOutputStream("Signs/HandShape/" + name);
+				FileOutputStream fout = new FileOutputStream("Signs/" + ReaderWriter.PROFILE + "/HandShape/" + name);
 				ObjectOutputStream oos = new ObjectOutputStream(fout);
 				// assuming the hand of interest is the first hand in the array
 				oos.writeObject(hs.data);

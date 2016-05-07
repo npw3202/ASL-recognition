@@ -34,10 +34,11 @@ public class Differentiator implements TrackerListener {
 		Vector distance = current.data.palmLocation.minus(previous.data.palmLocation);
 		Vector orientation = current.data.palmDirection.minus(previous.data.palmDirection);
 		float fingerChange = current.distance(previous);
-		if (distance.magnitudeSquared() < DISTANCE_EPSILON 
-				&& orientation.magnitudeSquared() < ORIENTATION_EPSILON
-				&& fingerChange < FINGER_EPSILON)
+		if (distance.magnitudeSquared() < DISTANCE_EPSILON){
+				//&& orientation.magnitudeSquared() < ORIENTATION_EPSILON
+				//&& fingerChange < FINGER_EPSILON)
 			return true;
+		}
 		return false;
 	}
 
