@@ -9,14 +9,7 @@ public class SignChanger extends Observable implements TrackerListener {
 	public static final float EPSILON = 0.5f;
 	public static final int PEEK_BACK_LENGTH = 5;
 	public static final int NUM_FRAME_BETWEEN = 100;
-	/**
-	 * @uml.property  name="last"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	HandGesture last = new HandGesture();
-	/**
-	 * @uml.property  name="frameNum"
-	 */
 	int frameNum;
 	@Override
 	public void onUpdate(HandShape hs) {

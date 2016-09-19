@@ -9,7 +9,7 @@ import mainPackage.Tracker;
 public class ContentPanel extends JPanel{
 	Tracker t;
 	CameraPanel cam;
-	TextPanel tp;
+	public TextPanel tp;
 	ProfileSelector ps;
 	public ContentPanel(Tracker t) {
 		this.t = t;

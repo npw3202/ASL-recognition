@@ -17,15 +17,7 @@ import java.io.IOException;
  */
 public class Imager extends Listener {
 	public static final String DEFAULT_PATH = "C:\\Users\\Nicholas\\git\\ASL-recognition\\image.jpg";
-	/**
-	 * @uml.property  name="c"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	Controller c;
-	/**
-	 * @uml.property  name="currImages"
-	 * @uml.associationEnd  
-	 */
 	ImageList currImages = null;
 
 	/**

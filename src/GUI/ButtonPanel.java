@@ -16,6 +16,7 @@ public class ButtonPanel extends JPanel{
 	Tracker t;
 	JButton addStaticSign = new JButton("Add Static Sign");
 	JButton addDynamicSign = new JButton("Add Dynamic Sign");
+	JButton clear = new JButton("Clear");
 	ActionListener staticWindowOpener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -28,14 +29,23 @@ public class ButtonPanel extends JPanel{
 			new SaveSign(t.c);
 		}
 	};
+	ActionListener Clearer = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			UserInterface.mainPanel.tp.text.setText("");
+		}
+	};
 
 	public ButtonPanel(Tracker t) {
+		
 		this.t = t;
 		this.setLayout(new FlowLayout());//(this, BoxLayout.X_AXIS));
 		this.add(addStaticSign);
 		this.add(addDynamicSign);
+		this.add(clear);
 		addDynamicSign.addActionListener(DynamicWindowOpener);
 		addStaticSign.addActionListener(staticWindowOpener);
+		clear.addActionListener(Clearer);
 		
 	}
 

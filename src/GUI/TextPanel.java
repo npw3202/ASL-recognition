@@ -18,7 +18,7 @@ import staticSign.HandShape;
 
 public class TextPanel extends JPanel implements TrackerListener{
 	Tracker t;
-	JLabel text;
+	public JLabel text;
 	public TextPanel(Tracker t) {
 		this.t = t;
 		t.addListener(this);

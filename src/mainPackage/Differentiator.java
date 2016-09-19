@@ -14,10 +14,6 @@ public class Differentiator implements TrackerListener {
 	public static final float ORIENTATION_EPSILON = 5f;
 	public static final float FINGER_EPSILON = 0.5f;
 	public static final int PEEK_BACK_LENGTH = 5;
-	/**
-	 * @uml.property  name="last"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	HandGesture last = new HandGesture();
 
 	/**

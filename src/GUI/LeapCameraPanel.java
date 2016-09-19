@@ -32,8 +32,8 @@ public class LeapCameraPanel extends JPanel implements TrackerListener{
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		BufferedImage bi = t.getImage();
-		g.drawImage(bi, 0, 0,this.getWidth(),this.getHeight(), null);
+		BufferedImage biLoc = t.getImage();
+		g.drawImage(biLoc, 0, 0,this.getWidth(),this.getHeight(), null);
 	}
 	
 	public static void main(String args[]){

@@ -14,41 +14,15 @@ import java.io.*;
 
 public class SaveSign extends JFrame implements TrackerListener {
 	// the main JPanel
-	/**
-	 * @uml.property  name="jp"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	JPanel jp;
 	// the text field containing the file name
-	/**
-	 * @uml.property  name="fileName"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	JTextField fileName;
 	// the listener for the leap
-	/**
-	 * @uml.property  name="track"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	Tracker track;
 	// the listener for the button
-	/**
-	 * @uml.property  name="recording"
-	 */
 	boolean recording = false;
-	/**
-	 * @uml.property  name="addSign"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	JButton addSign;
-	/**
-	 * @uml.property  name="hg"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	HandGesture hg = new HandGesture();
-	/**
-	 * @uml.property  name="al"
-	 */
 	ActionListener al = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			// open up a new text file
@@ -103,7 +77,7 @@ public class SaveSign extends JFrame implements TrackerListener {
 		addSign.addActionListener(al);
 		jp.add(addSign);
 		add(jp);
-		this.setSize(100, 100);
+		this.setSize(100, 150);
 		this.setVisible(true);
 	}
 

@@ -9,14 +9,14 @@ import mainPackage.Tracker;
 public class CameraPanel extends JPanel{
 	Tracker t;
 	LeapCameraPanel leap;
-	WebcamPanel wp;
+	//WebcamPanel wp;
 	public CameraPanel(Tracker t) {
 		this.t = t;
-		wp = new WebcamPanel();
+		//wp = new WebcamPanel();
 		setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
 		leap = new LeapCameraPanel(t);
 		this.add(leap);
-		this.add(wp);
+		//this.add(wp);
 	}
 	public static void main(String args[]){
 		JFrame jf = new JFrame();

@@ -12,7 +12,7 @@ import mainPackage.Tracker;
 
 public class UserInterface extends JFrame{
 	Tracker t = new Tracker();
-	ContentPanel mainPanel;
+	public static ContentPanel mainPanel;
 	ButtonPanel bp;
 	public UserInterface() {
 		mainPanel = new ContentPanel(t);

@@ -5,18 +5,9 @@ import java.awt.image.BufferedImage;
 import staticSign.HandShape;
 
 public class ListenerExample implements TrackerListener {
-	/**
-	 * @uml.property  name="t"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
 	Tracker t;
-	/**
-	 * @uml.property  name="sentence"
-	 */
+
 	String sentence = "";
-	/**
-	 * @uml.property  name="bi"
-	 */
 	BufferedImage bi = new BufferedImage(0, 0, BufferedImage.TYPE_3BYTE_BGR);
 	public ListenerExample() {
 		t = new Tracker();

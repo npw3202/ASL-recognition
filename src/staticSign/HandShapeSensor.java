@@ -8,10 +8,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 public class HandShapeSensor {
-	/**
-	 * @uml.property  name="handShapes"
-	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="staticSign.HandShape"
-	 */
+
 	LinkedList<HandShape> handShapes = new LinkedList<HandShape>();
 
 	public HandShapeSensor() {
