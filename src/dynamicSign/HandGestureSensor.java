@@ -11,10 +11,7 @@ import java.util.LinkedList;
 import staticSign.HandShape;
 
 public class HandGestureSensor {
-	/**
-	 * @uml.property  name="handGestures"
-	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="dynamicSign.HandGesture"
-	 */
+
 	LinkedList<HandGesture> handGestures = new LinkedList<HandGesture>();
 
 	public HandGestureSensor() {

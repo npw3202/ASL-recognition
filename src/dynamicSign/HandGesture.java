@@ -7,14 +7,8 @@ import com.leapmotion.leap.Vector;
 import staticSign.HandShape;
 
 public class HandGesture {
-	/**
-	 * @uml.property  name="data"
-	 * @uml.associationEnd  multiplicity="(1 1)"
-	 */
+	
 	public HandGestureData data = new HandGestureData(new LinkedList<HandShape>());
-	/**
-	 * @uml.property  name="name"
-	 */
 	public String name = "";
 	
 	/**
@@ -23,6 +17,7 @@ public class HandGesture {
 	public void clear(){
 		data.handList = new LinkedList<HandShape>();
 	}
+	
 	public HandGesture(HandGestureData readObject) {
 		this.data = readObject;
 	}
